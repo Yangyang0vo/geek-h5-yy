@@ -1,4 +1,7 @@
 * {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   box-sizing: border-box;
 }
 body {
@@ -67,16 +70,16 @@ textarea {
 }
 
 /* 字体图标 */
-.icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
+// .icon {
+//   width: 1em;
+//   height: 1em;
+//   vertical-align: -0.15em;
+//   fill: currentColor;
+//   overflow: hidden;
+// }
 
-/* Navbar icon */
-.am-navbar-left {
-  font-size: 20px;
-  color: #999;
-}
+// /* Navbar icon */
+// .am-navbar-left {
+//   font-size: 20px;
+//   color: #999;
+// }
