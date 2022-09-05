@@ -1,17 +1,21 @@
 // @ts-nocheck
-import { Button } from 'antd-mobile'
-import './App.scss'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React, { Suspense } from 'react'
+const Login = React.lazy(() => import('@/pages/Login'))
+const Home = React.lazy(() => import('@/pages/Home'))
 export default function App() {
   return (
-    <div>
-      <div className="App">
-        App
-        <div className="box">
-          <Button color="primary" fill="solid">
-            Solid
-          </Button>
-        </div>
+    <Router>
+      <div className="app">
+        <Suspense fallback={<div>loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Home />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+          </Routes>
+        </Suspense>
       </div>
-    </div>
+    </Router>
   )
 }
