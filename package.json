@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd-mobile": "^5.22.0",
     "babel-plugin-import": "^1.13.5",
+    "classnames": "^2.3.1",
     "customize-cra": "^1.0.0",
     "postcss-loader": "^7.0.1",
     "postcss-px-to-viewport-with-include": "^1.0.0",
