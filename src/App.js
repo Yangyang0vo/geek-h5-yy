@@ -26,9 +26,9 @@ export default function App() {
             <Route path="/search" element={<Search />}></Route>
             <Route path="/search/result" element={<SearchResult />}></Route>
             <Route path="/article/:id" element={<Article />}></Route>
-            <Route path="/profile/edit" element={ProfileEdit} />
-            <Route path="/profile/feedback" element={Feedback} />
-            <Route path="/profile/chat" element={Chat} />
+            <Route path="/profile/edit" element={<ProfileEdit />} />
+            <Route path="/profile/feedback" element={<Feedback />} />
+            <Route path="/profile/chat" element={<Chat />} />
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </Suspense>

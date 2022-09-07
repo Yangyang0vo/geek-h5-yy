@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import xxxReducer from './Slice/xxx'
+import loginSlice from './Slice/loginSlice'
+import profileSlice from './Slice/profileSlice'
+import homeSlice from './Slice/homeSlice'
 const store = configureStore({
   reducer: {
-    xxxReducer
+    loginSlice,
+    profileSlice,
+    homeSlice
   }
 })
 

@@ -17,24 +17,24 @@
         padding-left: 17px;
       }
 
-      .am-list-line {
+      .adm-list-line {
         padding-right: 15px;
       }
 
-      .am-list-body::before {
+      .adm-list-body::before {
         display: none;
       }
 
-      .am-list-content {
+      .adm-list-content {
         font-size: 14px;
         color: #3a3948;
       }
 
-      .am-list-line::after {
+      .adm-list-line::after {
         background-color: #f0f0f0 !important;
       }
 
-      .am-list-extra {
+      .adm-list-item-content-extra {
         padding-right: 13px;
         font-size: 14px;
         color: #3a3948;
