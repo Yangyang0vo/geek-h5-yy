@@ -3,7 +3,9 @@ import { getTokenInfo } from './storage'
 
 // 1. 创建新的 axios 实例
 const http = axios.create({
-  baseURL: 'http://geek.itheima.net/v1_0/'
+  baseURL: 'http://geek.itheima.net/v1_0/',
+  timeout: 1000
+  // baseURL: 'http://toutiao.itheima.net/v1_0/'
 })
 
 // 2. 设置请求拦截器和响应拦截器

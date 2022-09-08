@@ -13,7 +13,11 @@ export const sendValidationCode = createAsyncThunk('login/sendValidationCode', a
     const res = await http.get(`/sms/codes/${mobile}`)
     return Promise.resolve(res.data)
   } catch (error) {
+    // if (error.response) {
     return Promise.reject(error.response.data)
+    // } else {
+
+    // }
   }
 })
 

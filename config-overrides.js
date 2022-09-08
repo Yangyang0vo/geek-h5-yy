@@ -1,11 +1,8 @@
-const { override, addWebpackAlias, addPostcssPlugins, fixBabelImports } = require('customize-cra')
+const { override, addWebpackAlias, addPostcssPlugins, addWebpackPlugin } = require('customize-cra')
 const path = require('path')
 const pxtoviewport = require('postcss-px-to-viewport')
-//
-// const babelPlugins = fixBabelImports('import', {
-//   libraryName: 'antd-mobile',
-//   style: 'css'
-// })
+const webpack = require('webpack')
+const Dotenv = require('dotenv-webpack')
 
 // 配置别名
 const alias = addWebpackAlias({
@@ -19,9 +16,13 @@ const postcssPlugins = addPostcssPlugins([
   })
 ])
 
-// const postcssPlugins = addPostcssPlugins([require('postcss-px-to-viewport'), { viewportWidth: 375 }])
 module.exports = override(
-  // babelPlugins,
   alias,
-  postcssPlugins
+  postcssPlugins,
+  addWebpackPlugin(
+    new webpack.DefinePlugin({
+      process: { env: {} }
+    })
+  ),
+  addWebpackPlugin(new Dotenv())
 )
