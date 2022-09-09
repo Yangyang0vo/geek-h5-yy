@@ -1,8 +1,8 @@
-const { override, addWebpackAlias, addPostcssPlugins, addWebpackPlugin } = require('customize-cra')
+const { override, addWebpackAlias, addPostcssPlugins, addWebpackPlugin, addBabelPlugins } = require('customize-cra')
 const path = require('path')
 const pxtoviewport = require('postcss-px-to-viewport')
-const webpack = require('webpack')
-const Dotenv = require('dotenv-webpack')
+// const webpack = require('webpack')
+// const Dotenv = require('dotenv-webpack')
 
 // 配置别名
 const alias = addWebpackAlias({
@@ -15,14 +15,16 @@ const postcssPlugins = addPostcssPlugins([
     viewportWidth: 375
   })
 ])
-
+//
+const babelPlugins = addBabelPlugins(['import', { libraryName: 'antd', style: 'css' }])
 module.exports = override(
   alias,
   postcssPlugins,
-  addWebpackPlugin(
-    new webpack.DefinePlugin({
-      process: { env: {} }
-    })
-  ),
-  addWebpackPlugin(new Dotenv())
+  babelPlugins
+  // addWebpackPlugin(
+  //   new webpack.DefinePlugin({
+  //     process: { env: {} }
+  //   })
+  // ),
+  // addWebpackPlugin(new Dotenv())
 )

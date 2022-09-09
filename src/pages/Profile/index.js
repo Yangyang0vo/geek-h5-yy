@@ -3,11 +3,12 @@ import Icon from '@/components/Icon'
 import { useNavigate, Link } from 'react-router-dom'
 import styles from './index.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '@/store/Action/profileActions'
+import { getUser } from '@/store/action/profileActions'
 
 export default function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  // 页面进入 发请求加载数据
   useEffect(() => {
     dispatch(getUser())
   }, [dispatch])

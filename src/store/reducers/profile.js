@@ -1,6 +1,6 @@
 // import http from '@/utils/http'
 import { createSlice } from '@reduxjs/toolkit'
-import { getUser, getUserProfile } from '@/store/Action/profileActions'
+import { getUser, getUserProfile } from '@/store/action/profileActions'
 
 const profileSlice = createSlice({
   name: 'profile',

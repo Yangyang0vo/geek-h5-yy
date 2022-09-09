@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useLocation, useNavigate, Route, Routes } from 'react-router-dom'
 import classnames from 'classnames'
 import styles from './index.module.scss'
 import Icon from '@/components/Icon'
-import Home from '@/pages/Home'
-import Question from '@/pages/Question'
-import Video from '@/pages/Video'
-import Profile from '@/pages/Profile'
+const Home = React.lazy(() => import('@/pages/Home'))
+const Question = React.lazy(() => import('@/pages/Question'))
+const Video = React.lazy(() => import('@/pages/Video'))
+const Profile = React.lazy(() => import('@/pages/Profile'))
 // 将 tab 按钮的数据放在一个数组中
 // - id 唯一性ID
 // - title 按钮显示的文本
@@ -26,12 +26,14 @@ export default function TabBarLayout() {
     <div className={styles.root}>
       {/* 区域一：点击按钮切换显示内容的区域 */}
       <div className="tab-content">
-        <Routes>
-          <Route path="index" element={<Home />}></Route>
-          <Route path="question" element={<Question />}></Route>
-          <Route path="video" element={<Video />}></Route>
-          <Route path="profile" element={<Profile />}></Route>
-        </Routes>
+        <Suspense fallback={<div>loading...</div>}>
+          <Routes>
+            <Route path="index" element={<Home />}></Route>
+            <Route path="question" element={<Question />}></Route>
+            <Route path="video" element={<Video />}></Route>
+            <Route path="profile" element={<Profile />}></Route>
+          </Routes>
+        </Suspense>
       </div>
 
       {/* 区域二：按钮区域，会使用固定定位显示在页面底部 */}
@@ -40,7 +42,7 @@ export default function TabBarLayout() {
           // 判断当前页面路径和按钮路径是否一致，如果一致则表示该按钮处于选中状态
           const selected = btn.to === location.pathname
           return (
-            <div key={btn.id} className={classnames('tabbar-item', selected ? 'tabbar-item-active' : '')} onClick={() => navigate(btn.to, { replace: true })}>
+            <div key={btn.id} className={classnames('tabbar-item', selected ? 'tabbar-item-active' : '')} onClick={() => navigate(btn.to)}>
               <Icon type={btn.icon + (selected ? '_sel' : '')} />
               <span>{btn.title}</span>
             </div>

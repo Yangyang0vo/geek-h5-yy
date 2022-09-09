@@ -1,11 +1,11 @@
 // 用户 Token 的本地缓存键名
-const TOKEN_KEY = 'geek-itcast'
+const TOKEN_KEY = 'geek-itcast-yy'
 
 /**
  * 从本地缓存中获取 Token 信息
  */
 export const getTokenInfo = () => {
-  return JSON.parse(localStorage.getItem(TOKEN_KEY)) || { token: '', refresh_token: '' }
+  return JSON.parse(localStorage.getItem(TOKEN_KEY)) || {}
 }
 
 /**
@@ -16,7 +16,7 @@ export const setTokenInfo = (tokenInfo) => {
   localStorage.setItem(TOKEN_KEY, JSON.stringify(tokenInfo))
 }
 
-/**
+/**mm'
  * 删除本地缓存中的 Token 信息
  */
 export const removeTokenInfo = () => {

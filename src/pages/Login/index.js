@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import NavBar from '@/components/NavBar'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import { useDispatch } from 'react-redux'
 
 import { Toast } from 'antd-mobile'
-import { login, sendValidationCode } from '@/store/Action/loginActions'
+import { login, sendValidationCode } from '@/store/action/loginActions'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -18,20 +18,31 @@ export default function Login() {
   const [time, setTime] = useState(0)
   const timeRef = useRef(0)
   const formik = useFormik({
+    // 初始值
     initialValues: {
       mobile: '13900001111',
       code: '246810'
     },
+    // 登录
     onSubmit: async (values) => {
-      await dispatch(login(values))
+      const res = await dispatch(login(values))
       // 判断是否重定向到此处 有无pathname 有则跳回去，无则跳转到首页
       const { state } = location
+      // 登录失败 return
+      if (res.meta.requestStatus === 'rejected') return
+      // 成功之后判断是否有重定向
+      Toast.show({
+        icon: 'success',
+        content: '登录成功',
+        duration: 1000
+      })
       if (state) {
         navigate(state)
       } else {
         navigate('/home/index')
       }
     },
+    // 校验表单
     validationSchema: Yup.object({
       mobile: Yup.string()
         .trim()
@@ -61,46 +72,30 @@ export default function Login() {
       })
       return
     }
-    const res = await dispatch(sendValidationCode(mobile))
-    if (res.meta.requestStatus === 'fulfilled') {
-      Toast.show({
-        icon: 'success',
-        content: '验证码获取成功',
-        duration: 1000
+    await dispatch(sendValidationCode(mobile))
+    Toast.show({
+      icon: 'success',
+      content: '验证码获取成功',
+      duration: 1000
+    })
+    // 倒计时
+    setTime(60)
+    let timeId = setInterval(() => {
+      // 当我们每次都想要访问到最新的状态 需要写成 剪头函数的形式
+      setTime((time) => {
+        // 方式1 写到函数里 进行判断
+        // if (time === 1) {
+        //   clearInterval(timeId)
+        // }
+        // 方式2 把更新后的time 存到ref里
+        timeRef.current = time - 1
+        return time - 1
       })
-      // 倒计时
-      setTime(6)
-      let timeId = setInterval(() => {
-        // 当我们每次都想要访问到最新的状态 需要写成 剪头函数的形式
-        setTime((time) => {
-          // 方式1 写到函数里 进行判断
-          // if (time === 1) {
-          //   clearInterval(timeId)
-          // }
-          // 方式2 把更新后的time 存到ref里
-          timeRef.current = time - 1
-          return time - 1
-        })
-        // 然后同理 进行判断
-        if (timeRef.current === 1) {
-          clearInterval(timeId)
-        }
-      }, 1000)
-      //
-    }
-    if (res.meta.requestStatus === 'rejected') {
-      if (res.error.name === 'TypeError') {
-        Toast.show({
-          content: '服务器繁忙，请稍后再试',
-          duration: 1000
-        })
-      } else {
-        Toast.show({
-          content: res.error.message,
-          duration: 1000
-        })
+      // 然后同理 进行判断
+      if (timeRef.current === 1) {
+        clearInterval(timeId)
       }
-    }
+    }, 1000)
   }
 
   return (

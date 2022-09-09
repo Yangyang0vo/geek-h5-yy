@@ -1,7 +1,7 @@
 import http from '@/utils/http'
 import { setTokenInfo } from '@/utils/storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { saveToken } from '../Slice/loginSlice'
+import { saveToken } from '../reducers/login'
 
 /**
  * 发送验证码
@@ -9,16 +9,7 @@ import { saveToken } from '../Slice/loginSlice'
  * @returns
  */
 export const sendValidationCode = createAsyncThunk('login/sendValidationCode', async (mobile) => {
-  try {
-    const res = await http.get(`/sms/codes/${mobile}`)
-    return Promise.resolve(res.data)
-  } catch (error) {
-    // if (error.response) {
-    return Promise.reject(error.response.data)
-    // } else {
-
-    // }
-  }
+  await http.get(`/sms/codes/${mobile}`)
 })
 
 /**

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import React, { Suspense } from 'react'
 // 路由懒加载
 const Login = React.lazy(() => import('@/pages/Login'))
-const TabBarLayout = React.lazy(() => import('@/layouts/TabBarLayout'))
+const Home = React.lazy(() => import('@/layouts/TabBarLayout'))
 const Article = React.lazy(() => import('@/pages/Article'))
 const Chat = React.lazy(() => import('@/pages/Profile/Chat'))
 const ProfileEdit = React.lazy(() => import('@/pages/Profile/Edit'))
@@ -19,7 +19,7 @@ export default function App() {
         <Suspense fallback={<div>loading...</div>}>
           <Routes>
             {/* 使用tab布局的页面 */}
-            <Route path="/home/*" element={<TabBarLayout />} />
+            <Route path="/home/*" element={<Home />} />
             {/* 不使用tab布局的页面 */}
             {/* <Route path="*" element={<TabBarLayout />}></Route> */}
             <Route path="/login" element={<Login />}></Route>
