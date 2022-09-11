@@ -94,6 +94,7 @@
     }
 
     .drawer {
+      overflow-x: hidden;
       .ant-drawer-content-wrapper {
         width: 100%;
         background-color: #fff;
@@ -146,9 +147,9 @@
   // .am-picker-col-indicator {
   //   // height: 48px;
   // }
-  .adm-popup-body {
-    border-radius: 0% !important;
-  }
+  // .adm-popup-body {
+  //   border-radius: 0% !important;
+  // }
   .ant-drawer-header {
     height: 44px;
   }
@@ -156,29 +157,83 @@
     color: #fc6627;
     font-size: 17px;
   }
-  .ant-drawer-title {
-    .header-text {
-      margin: 0;
-      text-align: center;
+  .ant-drawer-content-wrapper {
+    height: 100%;
+    .ant-drawer-title {
+      .header-text {
+        margin: 0;
+        text-align: center;
+      }
+    }
+    .ant-drawer-body {
+      padding: 0 !important;
+      .content {
+        // height: 100% !important;
+        padding: 0 16px;
+        overflow: hidden;
+        h3 {
+          padding: 15px 0 10px 0;
+          font-size: 17px;
+          color: #333;
+        }
+        .input-wrap {
+          height: 44px;
+          background-color: #fff;
+
+          input {
+            padding-left: 10px;
+            height: 44px;
+            font-size: 14px;
+            background-color: #f7f8fa;
+            border-radius: 8px;
+          }
+        }
+      }
     }
   }
-  .ant-drawer-body {
-    padding: 0 !important;
-    .content {
-      padding: 0 16px;
-      h3 {
-        padding: 15px 0;
-        font-size: 17px;
-        color: #333;
-      }
-      .input-wrap {
-        height: 44px;
-        padding-left: 16px;
-        background-color: #fff;
+  .adm-action-sheet-button-item-wrapper {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    border: none;
 
-        input {
-          height: 44px;
-          font-size: 14px;
+    &:active {
+      background-color: #f2f3f5;
+    }
+
+    &:last-child {
+      a {
+        .adm-action-sheet-button-item-name {
+          color: #a5a6ab;
+        }
+      }
+
+      &::before {
+        content: ' ';
+        display: block;
+        height: 8px;
+        // width: 100%;
+        background-color: #f7f8fa;
+      }
+    }
+  }
+  .dialog {
+    .adm-dialog-title {
+      font-weight: normal;
+    }
+    .adm-dialog-content {
+      font-size: 4vw;
+      color: #888;
+    }
+    .adm-dialog-footer {
+      display: flex;
+
+      .adm-dialog-action-row {
+        flex: 1;
+        &:first-child {
+          button {
+            @include hairline(right, #f0f0f0);
+          }
         }
       }
     }

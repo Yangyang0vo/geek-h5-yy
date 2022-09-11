@@ -78,11 +78,11 @@ export default function Profile() {
       <div className="more-service">
         <h3>更多服务</h3>
         <div className="service-list">
-          <div className="service-item" onClick={() => navigate('profile/feedback')}>
+          <div className="service-item" onClick={() => navigate('/profile/feedback')}>
             <Icon type="iconbtn_feedback" />
             <div>用户反馈</div>
           </div>
-          <div className="service-item" onClick={() => navigate('profile/chat')}>
+          <div className="service-item" onClick={() => navigate('/profile/chat')}>
             <Icon type="iconbtn_xiaozhitongxue" />
             <div>小智同学</div>
           </div>

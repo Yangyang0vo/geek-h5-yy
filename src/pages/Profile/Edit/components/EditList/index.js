@@ -1,16 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ActionSheet } from 'antd-mobile'
-export default function EditList({ show, setShow }) {
+export default function EditList({ show, onClose, type, config }) {
   return (
     <div>
-      <ActionSheet
-        visible={show}
-        actions={[
-          { text: '男', key: 0 },
-          { text: '女', key: 1 }
-        ]}
-        onClose={setShow}
-      ></ActionSheet>
+      <ActionSheet visible={show} actions={config[type]} onClose={onClose}></ActionSheet>
     </div>
   )
 }

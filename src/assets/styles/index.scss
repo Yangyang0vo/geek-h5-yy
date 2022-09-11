@@ -71,6 +71,9 @@ textarea {
   resize: none;
   word-break: break-word;
   word-wrap: break-word;
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 /* 字体图标 */

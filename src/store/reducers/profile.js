@@ -10,7 +10,13 @@ const profileSlice = createSlice({
     // 详情信息
     userProfile: {}
   },
-  reducers: {},
+  reducers: {
+    // 数据同步到本地
+    saveUser: (state, { payload }) => {
+      state.userProfile = { ...state.userProfile, ...payload }
+    },
+ 
+  },
   extraReducers: {
     // 成功之后保存用户信息
     [getUser.fulfilled](state, { payload }) {
@@ -22,5 +28,5 @@ const profileSlice = createSlice({
     }
   }
 })
-// export const {  } = profileSlice.actions
+export const { saveUser } = profileSlice.actions
 export default profileSlice.reducer
