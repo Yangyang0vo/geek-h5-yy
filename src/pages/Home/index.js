@@ -1,13 +1,19 @@
 import React from 'react'
 import styles from './index.module.scss'
-import { useLocation, useNavigate } from 'react-router-dom'
+import Tabs from '@/components/Tabs'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserChannels } from '@/store/action/homeActions'
 
 export default function Home() {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const dispatch = useDispatch()
+  const tabs = useSelector((state) => state.homeSlice.userChannels)
+  useEffect(() => {
+    dispatch(getUserChannels())
+  }, [dispatch])
   return (
     <div className={styles.root}>
-      <button onClick={() => navigate('/login', { state: location.pathname })}>我要登录</button>
+      <Tabs tabs={tabs || []}></Tabs>
     </div>
   )
 }
