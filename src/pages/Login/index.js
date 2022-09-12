@@ -15,6 +15,7 @@ export default function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+  console.log(location)
   const [time, setTime] = useState(0)
   const timeRef = useRef(0)
   const formik = useFormik({

@@ -1,12 +1,14 @@
+import { logOut, saveToken } from '@/store/reducers/login'
 import { Toast } from 'antd-mobile'
 import axios from 'axios'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { getTokenInfo } from './storage'
-
+import history from './history'
+import { getTokenInfo, setTokenInfo } from './storage'
+import store from '@/store'
+const baseURL = 'http://geek.itheima.net/v1_0/'
 // 1. 创建新的 axios 实例
 const http = axios.create({
-  baseURL: 'http://geek.itheima.net/v1_0/',
-  timeout: 5000
+  timeout: 5000,
+  baseURL
   // baseURL: 'http://toutiao.itheima.net/v1_0/'
 })
 
@@ -26,7 +28,7 @@ http.interceptors.response.use(
   (response) => {
     return response
   },
-  (error) => {
+  async (error) => {
     if (!error.response) {
       // 如果因为网络原因 请求超时没有response
       Toast.show({
@@ -48,18 +50,49 @@ http.interceptors.response.use(
     const { refresh_token } = getTokenInfo()
     if (!refresh_token) {
       // 2. 如果没有 直接跳转到登录页面
-      const navigate = useNavigate()
-      const loaction = useLocation()
-      navigate('/login', { state: { from: loaction.pathname } })
+      history.replace('/login', { from: history.location.pathname })
+      history.go(0)
+      return Promise.reject(error)
+    }
+    // 有刷新token  重新请求获取新的token
+    try {
+      const res = await axios({
+        method: 'PUT',
+        url: `${baseURL}authorizations`,
+        headers: {
+          Authorization: `Bearer ${refresh_token}`
+        }
+      })
+      // 刷新成功 重新设置token
+      const tokenInfo = {
+        token: res.data.data.token,
+        refresh_token: refresh_token
+      }
+      // 保存到redux中
+      store.dispatch(saveToken(tokenInfo))
+      // 保存到本地缓存中
+      setTokenInfo(tokenInfo)
+      // 刷新token 成功后 需要把失败的请求重新发出去
+      return http(error.config)
+    } catch (error) {
+      // 如果刷新token失败  跳转到登录页面
+      // 清空token
+      store.dispatch(logOut())
+      history.replace('/login', { from: history.location.pathname })
+      history.go(0)
+      Toast.show({
+        content: '登录过期，请重新登录',
+        duration: 1000
+      })
       return Promise.reject(error)
     }
     // 有返回 就显示错误信息
-    Toast.show({
-      content: error.response.data.message,
-      duration: 1000
-    })
+    // Toast.show({
+    //   content: error.response.data.message,
+    //   duration: 1000
+    // })
 
-    return Promise.reject(error)
+    // return Promise.reject(error)
   }
 )
 
