@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Route, Routes } from 'react-router-dom'
 import classnames from 'classnames'
 import styles from './index.module.scss'
 import Icon from '@/components/Icon'
+import AuthRoute from '@/components/AuthRoute'
 const Home = React.lazy(() => import('@/pages/Home'))
 const Question = React.lazy(() => import('@/pages/Question'))
 const Video = React.lazy(() => import('@/pages/Video'))
@@ -31,7 +32,14 @@ export default function TabBarLayout() {
             <Route path="index" element={<Home />}></Route>
             <Route path="question" element={<Question />}></Route>
             <Route path="video" element={<Video />}></Route>
-            <Route path="profile" element={<Profile />}></Route>
+            <Route
+              path="profile"
+              element={
+                <AuthRoute>
+                  <Profile />
+                </AuthRoute>
+              }
+            ></Route>
           </Routes>
         </Suspense>
       </div>

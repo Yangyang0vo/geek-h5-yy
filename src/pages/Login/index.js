@@ -37,9 +37,9 @@ export default function Login() {
         duration: 1000
       })
       if (state) {
-        navigate(state)
+        navigate(state.from, { replace: true })
       } else {
-        navigate('/home/index')
+        navigate('/home/index', { replace: true })
       }
     },
     // 校验表单
