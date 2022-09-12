@@ -8,13 +8,13 @@
   :global {
     // ---
     .tabs {
-      position: fixed;
+      // position: fixed;
       display: flex;
       flex-direction: column;
       height: 100%;
     }
     .tabs-wrap {
-      // position: relative;
+      position: relative;
       z-index: 1;
       height: 44px;
       overflow: hidden;

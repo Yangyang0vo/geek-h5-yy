@@ -1,19 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './index.module.scss'
 import Tabs from '@/components/Tabs'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserChannels } from '@/store/action/homeActions'
-
+import { getAllChannels, getUserChannels } from '@/store/action/homeActions'
+import Icon from '@/components/Icon'
+import { Drawer } from 'antd'
+import Channels from './components/Channels'
 export default function Home() {
   const dispatch = useDispatch()
   const tabs = useSelector((state) => state.homeSlice.userChannels)
+  const [open, setOpen] = useState(false)
   useEffect(() => {
+    // 获取用户频道列表
     dispatch(getUserChannels())
+    // 获取所有频道列表
+    dispatch(getAllChannels())
   }, [dispatch])
   return (
     <div className={styles.root}>
-      <Tabs tabs={tabs || []}></Tabs>
+      <Tabs tabs={tabs || []} />
+      {/* 频道Tab 栏 右侧的两个图标 搜索、频道列表 */}
+      <div className="tabs-opration">
+        <Icon type="iconbtn_search"></Icon>
+        <Icon type="iconbtn_channel" onClick={() => setOpen(true)}></Icon>
+      </div>
+      <Drawer open={open} onClose={() => setOpen(false)} placement={'left'} bodyStyle={{ padding: 0 }} closable={false}>
+        <Channels onClose={() => setOpen(false)}></Channels>
+      </Drawer>
     </div>
   )
 }
