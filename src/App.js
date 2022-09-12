@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import React, { Suspense } from 'react'
 import AuthRoute from './components/AuthRoute'
 // 路由懒加载
@@ -20,9 +20,8 @@ export default function App() {
         <Suspense fallback={<div>loading...</div>}>
           <Routes>
             {/* 使用tab布局的页面 */}
-            <Route path="/home/*" element={<Home />}>
-              {/* <Route path="/home/*" element={}></Route> */}
-            </Route>
+            <Route path="/" element={<Navigate to={'/home/index'} />} />
+            <Route path="/home/*" element={<Home />} />
             {/* 不使用tab布局的页面 */}
             {/* <Route path="*" element={<TabBarLayout />}></Route> */}
             <Route path="/login" element={<Login />}></Route>
