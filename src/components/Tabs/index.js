@@ -22,11 +22,12 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
     setActiveIndex(index)
   }, [index])
 
+  // 当 activeIndex 发生变化时，改变线的位置 以及tabBar中心的位置
   useEffect(() => {
     // TODO: 清理上一次的 animate
 
     const activeTab = navRef.current.children[activeIndex]
-
+    if (!activeTab) return
     const activeTabWidth = activeTab.offsetWidth || 60
     // 注意：第一次获取 offsetLeft 值为 0 ，以后每次获取为 8
     //      所以，设置默认值 8，让所有情况下 offsetLeft 值都相同
@@ -50,9 +51,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
 
     // window.innerWidth / 375： 手动处理 JS 移动端适配
     // 说明：15 表示 Line 宽度的一半
-    lineRef.current.style.transform = `translateX(${
-      activeOffsetLeft + activeTabWidth / 2 - 15 * (window.innerWidth / 375)
-    }px)`
+    lineRef.current.style.transform = `translateX(${activeOffsetLeft + activeTabWidth / 2 - 15 * (window.innerWidth / 375)}px)`
 
     // 注意： 由于 tabs 数据是动态获取的，所以，为了能够在 tabs 数据加载完成后
     //       获取到 tab，所以，此处将 tabs 作为依赖项。
@@ -65,11 +64,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
         <div className="tabs-wrap">
           <div className="tabs-nav" ref={navRef}>
             {tabs.map((item, i) => (
-              <div
-                className={classnames('tab', i === activeIndex ? 'active' : '')}
-                key={i}
-                onClick={() => changeTab(i)}
-              >
+              <div className={classnames('tab', i === activeIndex ? 'active' : '')} key={i} onClick={() => changeTab(i)}>
                 <span>{item.name}</span>
               </div>
             ))}
@@ -81,10 +76,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
           {React.Children.map(children, (child, index) => {
             return (
               // 为每个子元素包裹一个 div，用来控制显示或隐藏
-              <div
-                className="tabs-content-wrap"
-                style={{ display: index === activeIndex ? 'block' : 'none' }}
-              >
+              <div className="tabs-content-wrap" style={{ display: index === activeIndex ? 'block' : 'none' }}>
                 {
                   // 为每个子元素生成副本，并传入选中选项卡的 id 值
                   React.cloneElement(child, { aid: tabs[activeIndex]?.id || 0 })
@@ -99,7 +91,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
 }
 
 Tabs.propTypes = {
-  tabs: PropTypes.array.isRequired,
+  tabs: PropTypes.array.isRequired
 }
 
 export default Tabs

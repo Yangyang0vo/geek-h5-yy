@@ -28,8 +28,53 @@ export const getUserChannels = createAsyncThunk('home/getUserChannels', async (_
 
 /**
  * 获取所有频道列表
+ * @returns {Promise}
  */
 export const getAllChannels = createAsyncThunk('home/getAllChannels', async (_, { dispatch }) => {
   const { data: res } = await http.get('channels')
   dispatch(saveAllChannels(res.data.channels))
+})
+
+/**
+ * 删除用户频道
+ * @param {object} channel 频道对象
+ * @returns {Promise}
+ */
+export const delChannel = createAsyncThunk('home/delChannel', async (channel, { dispatch, getState }) => {
+  //  判断是否登录 如果登录了就调用接口删除 如果没有登录就调用本地缓存删除
+  // 不管登录没登录 都需要修改redux中的数据
+  const userChannels = getState().homeSlice.userChannels
+  if (hasToken()) {
+    await http.delete(`user/channels/${channel.id}`)
+    // 同步到redux
+    dispatch(saveUserChannels(userChannels.filter((item) => item.id !== channel.id)))
+  } else {
+    // 没有登录
+    // 同步到本地缓存  同步到redux
+    const result = userChannels.filter((item) => item.id !== channel.id)
+    dispatch(saveUserChannels(result))
+    setLocalChannels(result)
+  }
+})
+
+/**
+ * 添加用户频道
+ * @param {object} channel 频道对象
+ * @returns {Promise}
+ */
+export const addChannel = createAsyncThunk('home/addChannel', async (channel, { dispatch, getState }) => {
+  //  判断是否登录 如果登录了就调用接口添加 如果没有登录就调用本地缓存添加
+  // 不管登录没登录 都需要修改redux中的数据
+  const userChannels = getState().homeSlice.userChannels
+  if (hasToken()) {
+    await http.patch('user/channels', { channels: [channel] })
+    // 同步到redux
+    dispatch(saveUserChannels([...userChannels, channel]))
+  } else {
+    // 没有登录
+    // 同步到本地缓存  同步到redux
+    const result = [...userChannels, channel]
+    dispatch(saveUserChannels(result))
+    setLocalChannels(result)
+  }
 })
