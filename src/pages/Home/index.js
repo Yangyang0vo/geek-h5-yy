@@ -7,6 +7,7 @@ import { getAllChannels, getUserChannels } from '@/store/action/homeActions'
 import Icon from '@/components/Icon'
 import { Drawer } from 'antd'
 import Channels from './components/Channels'
+import ArticleList from './components/ArticleList'
 export default function Home() {
   const dispatch = useDispatch()
   const tabs = useSelector((state) => state.homeSlice.userChannels)
@@ -25,7 +26,11 @@ export default function Home() {
   }
   return (
     <div className={styles.root}>
-      <Tabs tabs={tabs || []} index={activeIndex} onChange={changeActive}></Tabs>
+      <Tabs tabs={tabs || []} index={activeIndex} onChange={changeActive}>
+        {tabs.map((item) => (
+          <ArticleList key={item.id} channelId={item.id} aid={tabs[activeIndex].id}></ArticleList>
+        ))}
+      </Tabs>
       {/* 频道Tab 栏 右侧的两个图标 搜索、频道列表 */}
       <div className="tabs-opration">
         <Icon type="iconbtn_search"></Icon>

@@ -1,7 +1,7 @@
 import http from '@/utils/http'
 import { getLocalChannels, hasToken, setLocalChannels } from '@/utils/storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { saveAllChannels, saveUserChannels } from '../reducers/home'
+import { saveAllChannels, saveArticleList, saveUserChannels } from '../reducers/home'
 
 /**
  * 获取用户频道列表
@@ -77,4 +77,27 @@ export const addChannel = createAsyncThunk('home/addChannel', async (channel, { 
     dispatch(saveUserChannels(result))
     setLocalChannels(result)
   }
+})
+
+/**
+ * 获取文章列表
+ * @param {ChannelId,timestamp} params 频道id和时间戳
+ * @returns {Promise}
+ */
+export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp }, { dispatch }) => {
+  const { data: res } = await http({
+    url: '/articles',
+    method: 'get',
+    params: {
+      channel_id: channelId,
+      timestamp: Date.now()
+    }
+  })
+  dispatch(
+    saveArticleList({
+      channelId,
+      timestamp: res.data.pre_timestamp,
+      articleList: res.data.results
+    })
+  )
 })
