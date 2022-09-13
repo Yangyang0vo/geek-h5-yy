@@ -28,7 +28,7 @@ export default function Home() {
     <div className={styles.root}>
       <Tabs tabs={tabs || []} index={activeIndex} onChange={changeActive}>
         {tabs.map((item) => (
-          <ArticleList key={item.id} channelId={item.id} aid={tabs[activeIndex].id}></ArticleList>
+          <ArticleList key={item.id} channelId={item.id} activeId={tabs[activeIndex].id}></ArticleList>
         ))}
       </Tabs>
       {/* 频道Tab 栏 右侧的两个图标 搜索、频道列表 */}

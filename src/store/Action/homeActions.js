@@ -84,15 +84,16 @@ export const addChannel = createAsyncThunk('home/addChannel', async (channel, { 
  * @param {ChannelId,timestamp} params 频道id和时间戳
  * @returns {Promise}
  */
-export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp }, { dispatch }) => {
+export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp = Date.now() }, { dispatch }) => {
   const { data: res } = await http({
     url: '/articles',
     method: 'get',
     params: {
       channel_id: channelId,
-      timestamp: Date.now()
+      timestamp
     }
   })
+  // 保存文章列表
   dispatch(
     saveArticleList({
       channelId,

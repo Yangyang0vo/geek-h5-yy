@@ -5,7 +5,7 @@ const homeSlice = createSlice({
   initialState: {
     userChannels: [],
     allChannels: [],
-    articleList: {}
+    articles: {}
   },
   reducers: {
     // 保存用户频道列表
@@ -17,9 +17,9 @@ const homeSlice = createSlice({
       state.allChannels = payload
     },
     saveArticleList: (state, { payload }) => {
-      state.articleList = {
+      state.articles = {
         // 保留原有的数据 不要直接覆盖
-        ...state.articleList,
+        ...state.articles,
         [payload.channelId]: {
           timestamp: payload.timestamp,
           list: payload.articleList
