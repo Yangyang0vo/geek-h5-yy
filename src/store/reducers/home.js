@@ -16,6 +16,7 @@ const homeSlice = createSlice({
     saveAllChannels: (state, { payload }) => {
       state.allChannels = payload
     },
+    // 保存文章列表
     saveArticleList: (state, { payload }) => {
       state.articles = {
         // 保留原有的数据 不要直接覆盖
@@ -25,8 +26,14 @@ const homeSlice = createSlice({
           list: payload.articleList
         }
       }
+    },
+    // 保存加载更多的文章列表
+    saveMoreArticleList: (state, { payload }) => {
+      const { channelId, timestamp, articleList } = payload
+      state.articles[channelId].list.push(...articleList)
+      state.articles[channelId].timestamp = timestamp
     }
   }
 })
-export const { saveUserChannels, saveAllChannels, saveArticleList } = homeSlice.actions
+export const { saveUserChannels, saveAllChannels, saveArticleList, saveMoreArticleList } = homeSlice.actions
 export default homeSlice.reducer

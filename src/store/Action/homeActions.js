@@ -1,7 +1,7 @@
 import http from '@/utils/http'
 import { getLocalChannels, hasToken, setLocalChannels } from '@/utils/storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { saveAllChannels, saveArticleList, saveUserChannels } from '../reducers/home'
+import { saveAllChannels, saveArticleList, saveMoreArticleList, saveUserChannels } from '../reducers/home'
 
 /**
  * 获取用户频道列表
@@ -84,7 +84,7 @@ export const addChannel = createAsyncThunk('home/addChannel', async (channel, { 
  * @param {ChannelId,timestamp} params 频道id和时间戳
  * @returns {Promise}
  */
-export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp = Date.now() }, { dispatch }) => {
+export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp, loadMore = false }, { dispatch }) => {
   const { data: res } = await http({
     url: '/articles',
     method: 'get',
@@ -94,11 +94,23 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
     }
   })
   // 保存文章列表
-  dispatch(
-    saveArticleList({
-      channelId,
-      timestamp: res.data.pre_timestamp,
-      articleList: res.data.results
-    })
-  )
+  // 有loadmore 代表加载更多
+  if (loadMore) {
+    dispatch(
+      saveMoreArticleList({
+        channelId,
+        timestamp: res.data.pre_timestamp,
+        articleList: res.data.results
+      })
+    )
+  } else {
+    // 没有loadmore 代表第一次加载
+    dispatch(
+      saveArticleList({
+        channelId,
+        timestamp: res.data.pre_timestamp,
+        articleList: res.data.results
+      })
+    )
+  }
 })

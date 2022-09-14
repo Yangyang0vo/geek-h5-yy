@@ -101,7 +101,7 @@ export default function Login() {
   return (
     <div className={styles.root}>
       {/* 标题 */}
-      <NavBar onLeftClick={() => navigate(-1)}>登录</NavBar>
+      <NavBar onLeftClick={() => navigate('/home/index')}>登录</NavBar>
       {/* 内容 */}
       <div className="content">
         <h3>短信登录</h3>

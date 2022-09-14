@@ -70,11 +70,15 @@
     }
 
     .tabs-content {
+      height: 100%;
       flex: 1;
       padding-bottom: 50px;
       overflow: hidden;
 
       .tab-pane {
+        height: 100%;
+      }
+      .tabs-content-wrap {
         height: 100%;
       }
     }

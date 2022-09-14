@@ -5,15 +5,16 @@ import history from './history'
 import { getTokenInfo, setTokenInfo } from './storage'
 import store from '@/store'
 const baseURL = 'http://geek.itheima.net/v1_0/'
+// const baseURL='http://toutiao.itheima.net/v1_0/'
 // 1. 创建新的 axios 实例
 const http = axios.create({
   timeout: 5000,
   baseURL
-  // baseURL: 'http://toutiao.itheima.net/v1_0/'
 })
 
 // 2. 设置请求拦截器和响应拦截器
 http.interceptors.request.use((config) => {
+  config.headers['Access-Control-Allow-Origin'] = '*'
   // 获取缓存中的 Token 信息
   const token = getTokenInfo().token
   if (token) {
@@ -35,6 +36,7 @@ http.interceptors.response.use(
         content: '服务器繁忙，请稍后再试',
         duration: 1000
       })
+      return Promise.reject(error)
     }
     // 代表网络没问题 有数据
     if (error.response.status !== 401) {
@@ -86,13 +88,6 @@ http.interceptors.response.use(
       })
       return Promise.reject(error)
     }
-    // 有返回 就显示错误信息
-    // Toast.show({
-    //   content: error.response.data.message,
-    //   duration: 1000
-    // })
-
-    // return Promise.reject(error)
   }
 )
 

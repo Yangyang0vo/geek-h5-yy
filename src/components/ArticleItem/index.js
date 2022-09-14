@@ -3,6 +3,7 @@ import Icon from '@/components/Icon'
 import styles from './index.module.scss'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import Img from '@/components/Image'
 // 扩展dayjs
 dayjs.extend(relativeTime)
 // 导入中文包
@@ -27,8 +28,7 @@ const ArticleItem = ({ article }) => {
             {images.map((item, i) => {
               return (
                 <div className="article-img-wrapper" key={i}>
-                  {/* <Imageimg src={item} /> */}
-                  <img src={item} alt="" />
+                  <Img src={item} alt="" />
                 </div>
               )
             })}
