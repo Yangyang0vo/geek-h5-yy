@@ -13,18 +13,24 @@
       position: relative;
       display: flex;
       align-items: center;
-      height: 50px;
+      height: 45px;
       color: #333;
       font-size: 16px;
       @include hairline(bottom, #efefef);
 
       &:last-child {
         @include hairline-remove(bottom);
+        .text {
+          margin-left: 28px;
+        }
       }
-
+      span {
+        margin-left: 28px;
+      }
       .text {
         flex: 1;
         text-align: left;
+        margin-left: 0;
 
         & + .icon {
           margin-right: 0;
@@ -35,7 +41,8 @@
 
       .back-text {
         flex: 1;
-        margin-left: -28px;
+        // margin-left: -28px;
+        margin-left: 0;
       }
 
       .icon {

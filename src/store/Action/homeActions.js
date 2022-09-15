@@ -114,3 +114,37 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
     )
   }
 })
+
+/**
+ * 对文章不喜欢
+ * @param {number} articleId 文章id
+ * @returns {Promise}
+ */
+export const unLikeArticle = createAsyncThunk('home/unLikeArticle', async (articleId, { dispatch, getState }) => {
+  await http({
+    method: 'post',
+    url: '/article/dislikes',
+    data: {
+      target: articleId
+    }
+  })
+  // 删除指定文章
+  const channnelId = getState().homeSlice.moreAction.channelId
+  const article = getState().homeSlice.articles[channnelId].list.filter((item) => item.art_id !== articleId)
+  dispatch(saveArticleList({ channelId: channnelId, articleList: article }))
+})
+
+export const reportArticle = createAsyncThunk('home/reportArticle', async ({ articleId, type }, { dispatch, getState }) => {
+  await http({
+    method: 'post',
+    url: '/article/dislikes',
+    data: {
+      target: articleId,
+      type
+    }
+  })
+  // 删除指定文章
+  const channnelId = getState().homeSlice.moreAction.channelId
+  const article = getState().homeSlice.articles[channnelId].list.filter((item) => item.art_id !== articleId)
+  dispatch(saveArticleList({ channelId: channnelId, articleList: article }))
+})

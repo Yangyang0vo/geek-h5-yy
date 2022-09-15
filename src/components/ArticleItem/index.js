@@ -4,13 +4,16 @@ import styles from './index.module.scss'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Img from '@/components/Image'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMoreActionVisible } from '@/store/reducers/home'
 // 扩展dayjs
 dayjs.extend(relativeTime)
 // 导入中文包
 require('dayjs/locale/zh-cn')
 // 全局使用简体中文
 dayjs.locale('zh-cn')
-const ArticleItem = ({ article }) => {
+
+const ArticleItem = ({ article, channelId }) => {
   const {
     cover: { type, images },
     title,
@@ -18,6 +21,8 @@ const ArticleItem = ({ article }) => {
     comm_count,
     pubdate
   } = article
+  const isLogin = useSelector((state) => !!state.loginSlice.token)
+  const dispatch = useDispatch()
   return (
     <div className={styles.root}>
       {/* t3 三图 none-mt 无图 */}
@@ -39,9 +44,21 @@ const ArticleItem = ({ article }) => {
         <span>{aut_name}</span>
         <span>{comm_count} 评论</span>
         <span>{dayjs(pubdate).fromNow()}</span>
-
         <span className="close">
-          <Icon type="iconbtn_essay_close" />
+          {isLogin && (
+            <Icon
+              type="iconbtn_essay_close"
+              onClick={() =>
+                dispatch(
+                  setMoreActionVisible({
+                    visible: true,
+                    articleId: article.art_id,
+                    channelId: channelId
+                  })
+                )
+              }
+            />
+          )}
         </span>
       </div>
     </div>

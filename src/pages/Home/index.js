@@ -8,6 +8,8 @@ import Icon from '@/components/Icon'
 import { Drawer } from 'antd'
 import Channels from './components/Channels'
 import ArticleList from './components/ArticleList'
+import MoreAction from '@/pages/Home/components/MoreAction'
+
 export default function Home() {
   const dispatch = useDispatch()
   const tabs = useSelector((state) => state.homeSlice.userChannels)
@@ -20,7 +22,7 @@ export default function Home() {
   }, [dispatch])
   // 控制高亮
   const [activeIndex, setActiveIndex] = useState(0)
-  //
+  // 切换频道
   const changeActive = (e) => {
     setActiveIndex(e)
   }
@@ -39,6 +41,7 @@ export default function Home() {
       <Drawer open={open} onClose={() => setOpen(false)} placement={'left'} bodyStyle={{ padding: 0 }} closable={false}>
         <Channels onClose={() => setOpen(false)} activeIndex={activeIndex} setActiveIndex={changeActive}></Channels>
       </Drawer>
+      <MoreAction></MoreAction>
     </div>
   )
 }

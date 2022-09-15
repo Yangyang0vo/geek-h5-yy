@@ -64,7 +64,7 @@ export default function ArtcleList({ channelId, activeId }) {
         <PullToRefresh onRefresh={onRefresh}>
           {current.list.map((item) => (
             <div className="article-item" key={item.art_id}>
-              <ArticleItem article={item}></ArticleItem>
+              <ArticleItem article={item} chanelId={channelId}></ArticleItem>
             </div>
           ))}
           {/* 上拉加载更多 */}

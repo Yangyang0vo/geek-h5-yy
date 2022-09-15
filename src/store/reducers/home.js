@@ -5,7 +5,13 @@ const homeSlice = createSlice({
   initialState: {
     userChannels: [],
     allChannels: [],
-    articles: {}
+    // 所有的文章列表
+    articles: {},
+    moreAction: {
+      visible: false,
+      articleId: '',
+      channelId: ''
+    }
   },
   reducers: {
     // 保存用户频道列表
@@ -30,10 +36,20 @@ const homeSlice = createSlice({
     // 保存加载更多的文章列表
     saveMoreArticleList: (state, { payload }) => {
       const { channelId, timestamp, articleList } = payload
-      state.articles[channelId].list.push(...articleList)
-      state.articles[channelId].timestamp = timestamp
+      state.articles[channelId] = {
+        list: [...state.articles[channelId].list, ...articleList],
+        timestamp
+      }
+      // state.articles[channelId].list.push(...articleList)
+      // state.articles[channelId].timestamp = timestamp
+    },
+    // 显示更多操作
+    setMoreActionVisible: (state, { payload }) => {
+      state.moreAction = {
+        ...payload
+      }
     }
   }
 })
-export const { saveUserChannels, saveAllChannels, saveArticleList, saveMoreArticleList } = homeSlice.actions
+export const { saveUserChannels, saveAllChannels, saveArticleList, saveMoreArticleList, setMoreActionVisible } = homeSlice.actions
 export default homeSlice.reducer
