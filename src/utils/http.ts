@@ -3,8 +3,8 @@ import { Toast } from 'antd-mobile'
 import axios, { AxiosError } from 'axios'
 import history from './history'
 import { getTokenInfo, setTokenInfo } from './storage'
-const { logOut, saveToken } = require('@/store/reducers/login')
-const store = require('@/store/index')
+import { logOut, saveToken } from '@/store/reducers/login.js'
+import store from '@/store/index'
 const baseURL = 'http://geek.itheima.net/v1_0/'
 // const baseURL='http://toutiao.itheima.net/v1_0/'
 // 1. 创建新的 axios 实例

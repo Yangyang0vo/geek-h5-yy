@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import React, { Suspense } from 'react'
 import AuthRoute from './components/AuthRoute'
