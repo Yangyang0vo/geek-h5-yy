@@ -1,9 +1,10 @@
-import { logOut, saveToken } from '@/store/reducers/login'
 import { Toast } from 'antd-mobile'
-import axios from 'axios'
+// eslint-disable-next-line
+import axios, { AxiosError } from 'axios'
 import history from './history'
 import { getTokenInfo, setTokenInfo } from './storage'
-import store from '@/store'
+const { logOut, saveToken } = require('@/store/reducers/login')
+const store = require('@/store/index')
 const baseURL = 'http://geek.itheima.net/v1_0/'
 // const baseURL='http://toutiao.itheima.net/v1_0/'
 // 1. 创建新的 axios 实例
@@ -14,12 +15,12 @@ const http = axios.create({
 
 // 2. 设置请求拦截器和响应拦截器
 http.interceptors.request.use((config) => {
-  config.headers['Access-Control-Allow-Origin'] = '*'
+  config.headers!['Access-Control-Allow-Origin'] = '*'
   // 获取缓存中的 Token 信息
   const token = getTokenInfo().token
   if (token) {
     // 设置请求头的 Authorization 字段
-    config.headers['Authorization'] = `Bearer ${token}`
+    config.headers!['Authorization'] = `Bearer ${token}`
   }
 
   return config
@@ -29,7 +30,7 @@ http.interceptors.response.use(
   (response) => {
     return response
   },
-  async (error) => {
+  async (error: AxiosError<{ message: string }>) => {
     if (!error.response) {
       // 如果因为网络原因 请求超时没有response
       Toast.show({

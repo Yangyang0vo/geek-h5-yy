@@ -1,5 +1,5 @@
 {
-  "extends": "./path.json",
+  "extends": "./path",
   "compilerOptions": {
     "target": "es5",
     "lib": [
@@ -22,6 +22,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "@/store/"
   ]
 }
