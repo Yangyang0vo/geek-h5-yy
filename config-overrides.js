@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { override, addWebpackAlias, addPostcssPlugins, addWebpackPlugin, addBabelPlugins } = require('customize-cra')
+const { override, addWebpackAlias, addPostcssPlugins, addBabelPlugins } = require('customize-cra')
 const path = require('path')
 const pxtoviewport = require('postcss-px-to-viewport')
 // const webpack = require('webpack')
@@ -18,6 +18,7 @@ const postcssPlugins = addPostcssPlugins([
 ])
 //
 const babelPlugins = addBabelPlugins(['import', { libraryName: 'antd', style: 'css' }])
+
 module.exports = override(
   alias,
   postcssPlugins,
