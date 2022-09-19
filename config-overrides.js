@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { override, addWebpackAlias, addPostcssPlugins, addWebpackPlugin, addBabelPlugins } = require('customize-cra')
 const path = require('path')
 const pxtoviewport = require('postcss-px-to-viewport')
