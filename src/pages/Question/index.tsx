@@ -1,6 +1,6 @@
 import NavBar from '@/components/NavBar'
 import styles from './index.module.scss'
-
+// import Icon from '@/components/Icon'
 const Question = () => {
   return (
     <div className={styles.root}>

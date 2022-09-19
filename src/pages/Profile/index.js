@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Icon from '@/components/Icon'
 import { useNavigate, Link } from 'react-router-dom'
 import styles from './index.module.scss'

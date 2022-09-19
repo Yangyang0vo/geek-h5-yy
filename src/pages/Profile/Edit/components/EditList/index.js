@@ -1,4 +1,3 @@
-import React from 'react'
 import { ActionSheet } from 'antd-mobile'
 export default function EditList({ show, onClose, type, config }) {
   return (

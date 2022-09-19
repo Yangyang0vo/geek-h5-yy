@@ -10,7 +10,13 @@ import styles from './index.module.scss'
  * @param {Function} props.onLeftClick 左侧后退按钮的点击事件监听函数
  * @returns
  */
-const NavBar = ({ className, children, rightContent, onLeftClick }) => {
+type Props = {
+  children: JSX.Element | string
+  className?: string
+  rightContent?: JSX.Element | string
+  onLeftClick?: () => void
+}
+const NavBar = ({ className, children, rightContent, onLeftClick }: Props) => {
   return (
     <div className={classnames(styles.root, className)}>
       {/* 后退按钮 */}
