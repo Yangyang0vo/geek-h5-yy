@@ -43,7 +43,7 @@ type Props = {
     | 'iconbtn_video'
     | 'iconbtn_home'
   className?: string
-  rest?: void
+  rest?: any
 }
 export default function Icon({ type, className, ...rest }: Props) {
   return (

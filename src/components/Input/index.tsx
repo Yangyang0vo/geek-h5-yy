@@ -1,4 +1,3 @@
-
 import classnames from 'classnames'
 import styles from './index.module.scss'
 /**
@@ -14,11 +13,28 @@ import styles from './index.module.scss'
  * @param {Array} rest 其他传入的属性
  * @returns
  */
-const Input = ({ className, type = 'text', name, value, placeholder, onChange, extra, onExtraClick, ...rest }) => {
+
+// interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+//   type?: 'text' | 'password'
+//   className?: string
+//   extra?: string
+//   onExtraClick?: () => void
+//   rest?: any
+// }
+
+// 交叉类型
+type Props = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> & {
+  type?: 'text' | 'password'
+  className?: string
+  extra?: string
+  onExtraClick?: () => void
+  rest?: any
+}
+const Input = ({ className, type = 'text', extra, onExtraClick, ...rest }: Props) => {
   return (
     <div className={classnames(styles.root, className)}>
       {/* 左侧：input 标签 */}
-      <input className="input" type={type} name={name} value={value} placeholder={placeholder} onChange={onChange} {...rest} />
+      <input className="input" type={type} {...rest} />
 
       {/* 右侧：额外内容 */}
       {extra && (
