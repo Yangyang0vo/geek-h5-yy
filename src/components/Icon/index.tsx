@@ -42,6 +42,7 @@ type Props = {
     | 'iconbtn_xiaozhitongxue'
     | 'iconbtn_video'
     | 'iconbtn_home'
+    | string
   className?: string
   rest?: any
 }

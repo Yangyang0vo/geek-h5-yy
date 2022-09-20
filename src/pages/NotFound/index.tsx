@@ -1,25 +1,23 @@
-import React, { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
 export default function NotFound() {
   const [time, setTime] = useState(3)
   const navigate = useNavigate()
-  const timeRef = useRef()
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTime((time) => {
-        timeRef.current = time - 1
-        return time - 1
-      })
-      if (timeRef.current === 1) {
-        clearInterval(timer)
-        navigate('/home/index', { replace: true })
-      }
+    let timer = window.setTimeout(() => {
+      setTime(time - 1)
     }, 1000)
-  }, [navigate])
+    if (time === 0) {
+      clearTimeout(timer)
+      navigate('/home/index', { replace: true })
+    }
+  }, [time, navigate])
 
   return (
-    <div>
+    <div className={styles.root}>
       <h1>对不起，您访问的内容不存在...</h1>
       <p>
         {time}秒后自动跳转到<Link to="/home/index">首页</Link>
