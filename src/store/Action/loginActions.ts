@@ -8,7 +8,7 @@ import { saveToken } from '../reducers/login'
  * @param {string} mobile 手机号
  * @returns
  */
-export const sendValidationCode = createAsyncThunk('login/sendValidationCode', async (mobile) => {
+export const sendValidationCode = createAsyncThunk('login/sendValidationCode', async (mobile: string) => {
   await http.get(`/sms/codes/${mobile}`)
 })
 
@@ -17,7 +17,12 @@ export const sendValidationCode = createAsyncThunk('login/sendValidationCode', a
  * @param {{ mobile, code }} values 登录信息
  * @returns tokenInfo
  */
-export const login = createAsyncThunk('login/login', async (params, { dispatch }) => {
+
+type LoginParams = {
+  mobile: string
+  code: string
+}
+export const login = createAsyncThunk('login/login', async (params: LoginParams, { dispatch }) => {
   const res = await http.post('/authorizations', params)
   const tokenInfo = res.data.data
   // 保存 Token 到 Redux 中

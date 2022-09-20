@@ -25,16 +25,22 @@ export const getUserProfile = createAsyncThunk('profile/getUserProfile', async (
  * @param {属性值} value 要修改的属性值
  * @returns thunk
  */
-export const updateUserProfile = createAsyncThunk('profile/updateUserProfile', async ({ name, value }, { dispatch }) => {
+type UpdateProfile = {
+  name: string
+  value: number | string
+}
+export const updateUserProfile = createAsyncThunk('profile/updateUserProfile', async ({ name, value }: UpdateProfile, { dispatch }) => {
   await http.patch('/user/profile', {
     [name]: value
   })
   dispatch(saveUser({ [name]: value }))
 })
 
-export const updatePhoto = createAsyncThunk('profile/updatePhoto', async (file, { dispatch }) => {
+export const updatePhoto = createAsyncThunk('profile/updatePhoto', async (file: File, { dispatch }) => {
   const formData = new FormData()
   formData.append('photo', file)
   const res = await http.patch('/user/photo', formData)
   dispatch(saveUser({ photo: res.data.data.photo }))
 })
+
+

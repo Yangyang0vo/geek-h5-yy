@@ -1,5 +1,5 @@
 import http from '@/utils/http'
-import { getLocalChannels, hasToken, setLocalChannels } from '@/utils/storage.ts'
+import { getLocalChannels, hasToken, setLocalChannels } from '@/utils/storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { saveAllChannels, saveArticleList, saveMoreArticleList, saveUserChannels } from '../reducers/home'
 

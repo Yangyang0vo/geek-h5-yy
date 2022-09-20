@@ -1,19 +1,18 @@
 import { useRef, useState } from 'react'
 import NavBar from '@/components/NavBar'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { NavigateProps, useLocation, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 import Input from '@/components/Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import classnames from 'classnames'
-import { useDispatch } from 'react-redux'
 
 import { Toast } from 'antd-mobile'
 import { login, sendValidationCode } from '@/store/action/loginActions'
-
+import { useAppDispatch } from '@/store/hooks'
 export default function Login() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const location = useLocation()
   const [time, setTime] = useState(0)
   const timeRef = useRef(0)
@@ -24,10 +23,11 @@ export default function Login() {
       code: '246810'
     },
     // 登录
+
     onSubmit: async (values) => {
       const res = await dispatch(login(values))
       // 判断是否重定向到此处 有无pathname 有则跳回去，无则跳转到首页
-      const { state } = location
+      const state = location.state as NavigateProps['state']
       // 登录失败 return
       if (res.meta.requestStatus === 'rejected') return
       // 成功之后判断是否有重定向

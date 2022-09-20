@@ -1,12 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 const homeSlice = createSlice({
   name: 'home',
   initialState: {
-    userChannels: [],
-    allChannels: [],
+    userChannels: [] as string[],
+    allChannels: [] as string[],
     // 所有的文章列表
-    articles: {},
+    articles: {} as any,
     moreAction: {
       visible: false,
       articleId: '',
@@ -34,7 +33,7 @@ const homeSlice = createSlice({
       }
     },
     // 保存加载更多的文章列表
-    saveMoreArticleList: (state, { payload }) => {
+    saveMoreArticleList: (state, { payload }: PayloadAction<any>) => {
       const { channelId, timestamp, articleList } = payload
       state.articles[channelId] = {
         list: [...state.articles[channelId].list, ...articleList],

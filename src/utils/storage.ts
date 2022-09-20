@@ -41,7 +41,7 @@ export const hasToken = (): boolean => {
  * 保存频道数据到本地
  * @param {*} channels
  */
-export const setLocalChannels = (channels: []) => {
+export const setLocalChannels = (channels: string[]) => {
   localStorage.setItem(CHANNEL_KEY, JSON.stringify(channels))
 }
 

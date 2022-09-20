@@ -45,6 +45,7 @@ type Props = {
     | string
   className?: string
   rest?: any
+  onClick?: () => void
 }
 export default function Icon({ type, className, ...rest }: Props) {
   return (

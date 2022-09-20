@@ -3,18 +3,18 @@ import NavBar from '@/components/NavBar'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 import { List, DatePicker, Toast, Dialog } from 'antd-mobile'
-import { useDispatch, useSelector } from 'react-redux'
 import { getUserProfile, updatePhoto, updateUserProfile } from '@/store/action/profileActions'
 import classnames from 'classnames'
 import EditList from './components/EditList'
 import Editinput from './components/EditInput'
 import dayjs from 'dayjs'
 import { logOut } from '@/store/reducers/login'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 export default function Edit() {
   const navigate = useNavigate()
-  const fileRef = useRef(null)
-  const dispatch = useDispatch()
+  const fileRef = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
   // 控制日期选择器的显示隐藏
   const [visible, setVisible] = useState(false)
   // 控制 简介，昵称抽屉的显示隐藏
@@ -22,6 +22,7 @@ export default function Edit() {
     visible: false,
     type: ''
   })
+
   // 关闭昵称，简介抽屉
   const onClose = () => {
     setOpen({
@@ -50,7 +51,7 @@ export default function Edit() {
         text: '本地上传',
         key: 1,
         onClick: () => {
-          fileRef.current.click()
+          fileRef.current!.click()
         }
       },
       {
@@ -83,7 +84,7 @@ export default function Edit() {
   }
 
   // 提交抽屉
-  const onCommit = async (type, value) => {
+  const onCommit = async (type: string, value: string | number) => {
     await dispatch(updateUserProfile({ name: type, value }))
     Toast.show({
       icon: 'success',
@@ -94,8 +95,8 @@ export default function Edit() {
     onClose()
   }
   // 上传文件
-  const onFileChange = async (e) => {
-    const file = e.target.files[0]
+  const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0]
     await dispatch(updatePhoto(file))
     Toast.show({
       icon: 'success',
@@ -106,7 +107,7 @@ export default function Edit() {
     onClose()
   }
   // 修改生日
-  const onDateSubmit = async (val) => {
+  const onDateSubmit = async (val: string | number | Date) => {
     const date = dayjs(val).format('YYYY-MM-DD')
     await onCommit('birthday', date)
   }
@@ -149,7 +150,7 @@ export default function Edit() {
     dispatch(getUserProfile())
   }, [dispatch])
   // 拿数据
-  const profile = useSelector((state) => state.profileSlice.userProfile)
+  const profile = useAppSelector((state) => state.profileSlice.userProfile)
   return (
     <div className={styles.root}>
       <div className="content">
