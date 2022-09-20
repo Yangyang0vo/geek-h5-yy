@@ -96,7 +96,7 @@
     .drawer {
       overflow-x: hidden;
       .ant-drawer-content-wrapper {
-        width: 100%;
+        width: 100vw !important;
         background-color: #fff;
         overflow: auto;
       }
