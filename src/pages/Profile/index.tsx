@@ -2,17 +2,17 @@ import { useEffect } from 'react'
 import Icon from '@/components/Icon'
 import { useNavigate, Link } from 'react-router-dom'
 import styles from './index.module.scss'
-import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from '@/store/action/profileActions'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 export default function Profile() {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   // 页面进入 发请求加载数据
   useEffect(() => {
     dispatch(getUser())
   }, [dispatch])
-  const { photo, name, art_count, follow_count, fans_count, like_count } = useSelector((state) => state.profileSlice.user)
+  const { photo, name, art_count, follow_count, fans_count, like_count } = useAppSelector((state) => state.profileSlice.user)
   return (
     <div className={styles.root}>
       <div className="profile">

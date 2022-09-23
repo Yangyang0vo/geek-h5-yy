@@ -1,11 +1,9 @@
+import { Channel, Token } from '@/store/types'
+
 // 用户 Token 的本地缓存键名
 const TOKEN_KEY = 'geek-itcast-yy'
 const CHANNEL_KEY = 'geek-itcast-yy-channel'
 
-interface Token {
-  token: string
-  refresh_token: string
-}
 /**
  * 从本地缓存中获取 Token 信息
  */
@@ -41,7 +39,7 @@ export const hasToken = (): boolean => {
  * 保存频道数据到本地
  * @param {*} channels
  */
-export const setLocalChannels = (channels: string[]) => {
+export const setLocalChannels = (channels: Channel[]) => {
   localStorage.setItem(CHANNEL_KEY, JSON.stringify(channels))
 }
 

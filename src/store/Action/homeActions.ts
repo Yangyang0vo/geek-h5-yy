@@ -1,8 +1,9 @@
 import http from '@/utils/http'
 import { getLocalChannels, hasToken, setLocalChannels } from '@/utils/storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { RootState } from '..'
 import { saveAllChannels, saveArticleList, saveMoreArticleList, saveUserChannels } from '../reducers/home'
-
+import { Article, Channel } from '../types'
 /**
  * 获取用户频道列表
  * @returns {Promise}
@@ -30,6 +31,7 @@ export const getUserChannels = createAsyncThunk('home/getUserChannels', async (_
  * 获取所有频道列表
  * @returns {Promise}
  */
+
 export const getAllChannels = createAsyncThunk('home/getAllChannels', async (_, { dispatch }) => {
   const { data: res } = await http.get('channels')
   dispatch(saveAllChannels(res.data.channels))
@@ -40,7 +42,8 @@ export const getAllChannels = createAsyncThunk('home/getAllChannels', async (_, 
  * @param {object} channel 频道对象
  * @returns {Promise}
  */
-export const delChannel = createAsyncThunk('home/delChannel', async (channel, { dispatch, getState }) => {
+
+export const delChannel = createAsyncThunk<void, any, { state: RootState }>('home/delChannel', async (channel: Channel, { dispatch, getState }) => {
   //  判断是否登录 如果登录了就调用接口删除 如果没有登录就调用本地缓存删除
   // 不管登录没登录 都需要修改redux中的数据
   const userChannels = getState().homeSlice.userChannels
@@ -62,7 +65,8 @@ export const delChannel = createAsyncThunk('home/delChannel', async (channel, { 
  * @param {object} channel 频道对象
  * @returns {Promise}
  */
-export const addChannel = createAsyncThunk('home/addChannel', async (channel, { dispatch, getState }) => {
+
+export const addChannel = createAsyncThunk<void, any, { state: RootState }>('home/addChannel', async (channel: Channel, { dispatch, getState }) => {
   //  判断是否登录 如果登录了就调用接口添加 如果没有登录就调用本地缓存添加
   // 不管登录没登录 都需要修改redux中的数据
   const userChannels = getState().homeSlice.userChannels
@@ -84,7 +88,13 @@ export const addChannel = createAsyncThunk('home/addChannel', async (channel, { 
  * @param {ChannelId,timestamp} params 频道id和时间戳
  * @returns {Promise}
  */
-export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp, loadMore = false }, { dispatch }) => {
+
+type GetArticleListParams = {
+  channelId: number
+  timestamp: number | string
+  loadMore?: boolean
+}
+export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp, loadMore = false }: GetArticleListParams, { dispatch }) => {
   const { data: res } = await http({
     url: '/articles',
     method: 'get',
@@ -93,6 +103,7 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
       timestamp
     }
   })
+
   // 保存文章列表
   // 有loadmore 代表加载更多
   if (loadMore) {
@@ -120,7 +131,8 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
  * @param {number} articleId 文章id
  * @returns {Promise}
  */
-export const unLikeArticle = createAsyncThunk('home/unLikeArticle', async (articleId, { dispatch, getState }) => {
+
+export const unLikeArticle = createAsyncThunk<void, any, { state: RootState }>('home/unLikeArticle', async (articleId: string, { dispatch, getState }) => {
   await http({
     method: 'post',
     url: '/article/dislikes',
@@ -129,12 +141,17 @@ export const unLikeArticle = createAsyncThunk('home/unLikeArticle', async (artic
     }
   })
   // 删除指定文章
-  const channnelId = getState().homeSlice.moreAction.channelId
+  const channnelId = getState().homeSlice.moreAction.channelId as number
   const article = getState().homeSlice.articles[channnelId].list.filter((item) => item.art_id !== articleId)
   dispatch(saveArticleList({ channelId: channnelId, articleList: article }))
 })
+type ReportArticleParams = {
+  articleId: string
+  type: number
+}
 
-export const reportArticle = createAsyncThunk('home/reportArticle', async ({ articleId, type }, { dispatch, getState }) => {
+// articleId string  type number
+export const reportArticle = createAsyncThunk<void, any, { state: RootState }>('home/reportArticle', async ({ articleId, type }: ReportArticleParams, { dispatch, getState }) => {
   await http({
     method: 'post',
     url: '/article/dislikes',
@@ -144,7 +161,7 @@ export const reportArticle = createAsyncThunk('home/reportArticle', async ({ art
     }
   })
   // 删除指定文章
-  const channnelId = getState().homeSlice.moreAction.channelId
-  const article = getState().homeSlice.articles[channnelId].list.filter((item) => item.art_id !== articleId)
-  dispatch(saveArticleList({ channelId: channnelId, articleList: article }))
+  const channelId = getState().homeSlice.moreAction.channelId as number
+  const article = getState().homeSlice.articles[channelId].list.filter((item: Article) => item.art_id !== articleId)
+  dispatch(saveArticleList({ channelId: channelId, articleList: article }))
 })

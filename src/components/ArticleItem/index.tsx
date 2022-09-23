@@ -4,16 +4,20 @@ import styles from './index.module.scss'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import Img from '@/components/Image'
-import { useDispatch, useSelector } from 'react-redux'
 import { setMoreActionVisible } from '@/store/reducers/home'
+import { Article } from '@/store/types'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 // 扩展dayjs
 dayjs.extend(relativeTime)
 // 导入中文包
 require('dayjs/locale/zh-cn')
 // 全局使用简体中文
 dayjs.locale('zh-cn')
-
-const ArticleItem = ({ article, channelId }) => {
+type ArticleItemProps = {
+  article: Article
+  channelId: number
+}
+const ArticleItem = ({ article, channelId }: ArticleItemProps) => {
   const {
     cover: { type, images },
     title,
@@ -21,8 +25,8 @@ const ArticleItem = ({ article, channelId }) => {
     comm_count,
     pubdate
   } = article
-  const isLogin = useSelector((state) => !!state.loginSlice.token)
-  const dispatch = useDispatch()
+  const isLogin = useAppSelector((state) => !!state.loginSlice.token)
+  const dispatch = useAppDispatch()
   return (
     <div className={styles.root}>
       {/* t3 三图 none-mt 无图 */}

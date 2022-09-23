@@ -1,6 +1,5 @@
 import Icon from '@/components/Icon'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
 // import { differenceBy } from 'lodash'
 // 按需导入
@@ -8,12 +7,20 @@ import differenceBy from 'lodash/differenceBy'
 import classNames from 'classnames'
 import { addChannel, delChannel } from '@/store/action/homeActions'
 import { Toast } from 'antd-mobile'
-export default function Channels({ onClose, activeIndex, setActiveIndex }) {
-  const dispatch = useDispatch()
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { Channel } from '@/store/types'
+type ChannelsProps = {
+  onClose: () => void
+  activeIndex: number
+  setActiveIndex: (index: number) => void
+}
+
+export default function Channels({ onClose, activeIndex, setActiveIndex }: ChannelsProps) {
+  const dispatch = useAppDispatch()
   // 用户频道列表
-  const userChannels = useSelector((state) => state.homeSlice.userChannels)
+  const userChannels = useAppSelector((state) => state.homeSlice.userChannels)
   // 推荐频道列表
-  const recommendChannels = useSelector((state) => {
+  const recommendChannels = useAppSelector((state) => {
     // 推荐频道 = 所有频道 - 用户频道
     const { userChannels, allChannels } = state.homeSlice
     return differenceBy(allChannels, userChannels, 'id')
@@ -25,7 +32,7 @@ export default function Channels({ onClose, activeIndex, setActiveIndex }) {
   // 编辑频道
   const [editing, setEditing] = useState(false)
   // 点击切换频道
-  const changeChannel = (index) => {
+  const changeChannel = (index: number) => {
     if (editing) return
     // 修改高亮
     setActiveIndex(index)
@@ -37,7 +44,8 @@ export default function Channels({ onClose, activeIndex, setActiveIndex }) {
     setEditing(false)
   }
   //删除频道
-  const del = async (channel, index) => {
+  const del = async (channel: Channel, index: number) => {
+    // id number  name  string  index number
     if (userChannels.length <= 4) {
       return Toast.show({ content: '至少保留4个频道', duration: 400 })
     }
@@ -54,7 +62,9 @@ export default function Channels({ onClose, activeIndex, setActiveIndex }) {
     }
   }
   // 添加频道
-  const add = async (channel) => {
+  const add = async (channel: Channel) => {
+    // 可选   是否编辑状态才允许添加和删除频道
+    // if (!editing) return
     await dispatch(addChannel(channel))
     Toast.show({ content: '添加成功', duration: 300 })
   }

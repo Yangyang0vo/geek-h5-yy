@@ -9,6 +9,8 @@ const store = configureStore({
     homeSlice
   }
 })
+// 获取store的类型
 export type RootState = ReturnType<typeof store.getState>
+// 获取dispatch的类型
 export type AppDispatch = typeof store.dispatch
 export default store

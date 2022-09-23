@@ -1,10 +1,7 @@
 import { getTokenInfo, removeTokenInfo } from '@/utils/storage'
 import { createSlice } from '@reduxjs/toolkit'
+import { Token } from '../types'
 
-interface Token {
-  token: string
-  refresh_token: string
-}
 const initialState: Token = {
   token: getTokenInfo().token,
   refresh_token: getTokenInfo().refresh_token

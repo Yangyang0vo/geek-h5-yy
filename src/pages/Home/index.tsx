@@ -2,17 +2,17 @@ import { useState } from 'react'
 import styles from './index.module.scss'
 import Tabs from '@/components/Tabs'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { getAllChannels, getUserChannels } from '@/store/action/homeActions'
 import Icon from '@/components/Icon'
 import { Drawer } from 'antd'
 import Channels from './components/Channels'
 import ArticleList from './components/ArticleList'
 import MoreAction from '@/pages/Home/components/MoreAction'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 export default function Home() {
-  const dispatch = useDispatch()
-  const tabs = useSelector((state) => state.homeSlice.userChannels)
+  const dispatch = useAppDispatch()
+  const tabs = useAppSelector((state) => state.homeSlice.userChannels)
   const [open, setOpen] = useState(false)
   useEffect(() => {
     // 获取用户频道列表
@@ -23,7 +23,7 @@ export default function Home() {
   // 控制高亮
   const [activeIndex, setActiveIndex] = useState(0)
   // 切换频道
-  const changeActive = (e) => {
+  const changeActive = (e: number) => {
     setActiveIndex(e)
   }
   return (

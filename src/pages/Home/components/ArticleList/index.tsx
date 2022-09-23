@@ -1,9 +1,9 @@
 import ArticleItem from '@/components/ArticleItem'
 import { getArticleList } from '@/store/action/homeActions'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
 import { PullToRefresh, InfiniteScroll } from 'antd-mobile'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 require('default-passive-events')
 /**
  *
@@ -11,9 +11,13 @@ require('default-passive-events')
  * @param {String} props.aId 当前Tab栏选中的频道id
  * @returns
  */
-export default function ArtcleList({ channelId, activeId }) {
-  const dispatch = useDispatch()
-  const current = useSelector((state) => state.homeSlice.articles[channelId])
+type ArtcleListProps = {
+  channelId: number
+  activeId: number
+}
+export default function ArtcleList({ channelId, activeId }: ArtcleListProps) {
+  const dispatch = useAppDispatch()
+  const current = useAppSelector((state) => state.homeSlice.articles[channelId])
   useEffect(() => {
     // 如果该频道文章 有数据 没必要一进来就发请求
     if (current) return
@@ -40,7 +44,7 @@ export default function ArtcleList({ channelId, activeId }) {
 
     if (loading) return
     // 如果 频道id和当前选中的id不同  不需要加载
-    if (!channelId === activeId) return
+    if (channelId !== activeId) return
     // 如果没有时间戳
     if (!current.timestamp) {
       setHasMore(false)
@@ -64,7 +68,7 @@ export default function ArtcleList({ channelId, activeId }) {
         <PullToRefresh onRefresh={onRefresh}>
           {current.list.map((item) => (
             <div className="article-item" key={item.art_id}>
-              <ArticleItem article={item} chanelId={channelId}></ArticleItem>
+              <ArticleItem article={item} channelId={channelId}></ArticleItem>
             </div>
           ))}
           {/* 上拉加载更多 */}

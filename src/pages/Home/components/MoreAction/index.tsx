@@ -1,11 +1,10 @@
 import { Modal, Toast } from 'antd-mobile'
 import Icon from '@/components/Icon'
-
 import styles from './index.module.scss'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { setMoreActionVisible } from '@/store/reducers/home'
 import { reportArticle, unLikeArticle } from '@/store/action/homeActions'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 const list = [
   { id: 0, title: '其他问题' },
@@ -22,12 +21,12 @@ const MoreAction = () => {
   // 举报类型 normal 不感兴趣或拉黑作者  junk 垃圾内容
   const [feedbackType, setFeedbackType] = useState('normal')
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const onClose = () => {
     setFeedbackType('normal')
-    dispatch(setMoreActionVisible({ visible: false, articleId: '' }))
+    dispatch(setMoreActionVisible({ visible: false, articleId: '', channelId: '' }))
   }
-  const moreAction = useSelector((state) => state.homeSlice.moreAction)
+  const moreAction = useAppSelector((state) => state.homeSlice.moreAction)
   const unLike = async () => {
     await dispatch(unLikeArticle(moreAction.articleId))
     // 关闭弹窗
@@ -37,7 +36,7 @@ const MoreAction = () => {
       duration: 1000
     })
   }
-  const report = async (id) => {
+  const report = async (id: number) => {
     await dispatch(reportArticle({ articleId: moreAction.articleId, type: id }))
     // 关闭弹窗
     onClose()
@@ -49,8 +48,6 @@ const MoreAction = () => {
   return (
     <div className={styles.root}>
       <Modal
-        transparent
-        maskClosable
         visible={moreAction.visible}
         onClose={onClose}
         className="more-action-modal"

@@ -42,5 +42,3 @@ export const updatePhoto = createAsyncThunk('profile/updatePhoto', async (file: 
   const res = await http.patch('/user/photo', formData)
   dispatch(saveUser({ photo: res.data.data.photo }))
 })
-
-
