@@ -45,19 +45,14 @@ const homeSlice = createSlice({
       } as Articles
     },
     // 保存加载更多的文章列表
-    saveMoreArticleList: (state, { payload }) => {
-      // type Pa = {
-      //   channelId: number
-      //   timestamp: number | string
-      //   articleList: []
-      // }
+    saveMoreArticleList: (state, { payload }: PayloadAction<ArticlePayload>) => {
       const { channelId, timestamp, articleList } = payload
       state.articles[channelId] = {
-        list: [...state.articles[channelId].list, ...articleList] as Article[],
-        timestamp: timestamp
+        list: [...state.articles[channelId].list, ...articleList],
+        timestamp: timestamp as string
       }
       // state.articles[channelId].list.push(...articleList)
-      // state.articles[channelId].timestamp = timestamp
+      //ate.articles[channelId].timestamp = timestamp
     },
     // 显示更多操作
     setMoreActionVisible: (state, { payload }: PayloadAction<MoreAction>) => {

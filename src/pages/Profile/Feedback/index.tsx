@@ -5,7 +5,12 @@ import styles from './index.module.scss'
 
 const ProfileFeedback = () => {
   const navigate = useNavigate()
-
+  const mockUpload = async (file: File) => {
+    await 3000
+    return {
+      url: ''
+    }
+  }
   return (
     <div className={styles.root}>
       <NavBar onLeftClick={() => navigate(-1)}>意见反馈</NavBar>
@@ -17,7 +22,7 @@ const ProfileFeedback = () => {
             <textarea className="textarea" placeholder="请输入" style={{ resize: 'none' }}></textarea>
             <div className="count">0/100</div>
           </div>
-          <ImageUploader files={[]} multiple />
+          <ImageUploader upload={mockUpload} multiple />
           <p className="image-picker-desc">最多6张，单个图片不超过20M。</p>
         </div>
 

@@ -4,9 +4,15 @@ import Icon from '@/components/Icon'
 import Textarea from '@/components/Textarea'
 import { useState } from 'react'
 import Input from '@/components/Input'
-import { useSelector } from 'react-redux'
-export default function Editinput({ open, onClose, type, onBtnClick }) {
-  const defaultValue = useSelector((state) => state.profileSlice.userProfile[type])
+import { useAppSelector } from '@/store/hooks'
+type EditInputProps = {
+  open: boolean
+  onClose: (visible: boolean) => void
+  type: 'name' | 'intro'
+  onBtnClick: (type: string, value: string | number) => void
+}
+export default function Editinput({ open, onClose, type, onBtnClick }: EditInputProps) {
+  const defaultValue = useAppSelector((state) => state.profileSlice.userProfile[type])
   const [value, setValue] = useState(defaultValue || '')
   return (
     <div className={styles.root}>
@@ -31,7 +37,7 @@ export default function Editinput({ open, onClose, type, onBtnClick }) {
             <Input autoFocus className="input-wrap " value={value} onChange={(e) => setValue(e.target.value)}></Input>
           ) : (
             <Textarea
-              placeholder={type === 'name' ? '请输入昵称' : '请输入简介'}
+              placeholder={type === 'intro' ? '请输入简介' : '请输入昵称'}
               value={value}
               onChange={(e) => {
                 setValue(e.target.value)

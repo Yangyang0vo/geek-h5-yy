@@ -20,24 +20,24 @@ export default function Edit() {
   // 控制 简介，昵称抽屉的显示隐藏
   const [open, setOpen] = useState({
     visible: false,
-    type: ''
+    type: '' as 'name' | 'intro'
   })
 
   // 关闭昵称，简介抽屉
   const onClose = () => {
     setOpen({
       visible: false,
-      type: ''
+      type: '' as 'name' | 'intro'
     })
     setShow({
       visible: false,
-      type: ''
+      type: '' as 'photo'
     })
   }
   //  控制头像 性别 的显示隐藏
   const [show, setShow] = useState({
     visible: false,
-    type: ''
+    type: '' as 'photo' | 'gender'
   })
   // 列表抽屉数据
   const config = {
