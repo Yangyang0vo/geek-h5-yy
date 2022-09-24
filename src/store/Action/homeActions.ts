@@ -1,7 +1,6 @@
 import http from '@/utils/http'
 import { getLocalChannels, hasToken, setLocalChannels } from '@/utils/storage'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { RootState } from '..'
 import { saveAllChannels, saveArticleList, saveMoreArticleList, saveUserChannels } from '../reducers/home'
 import { Article, Channel } from '../types'
 /**
@@ -43,7 +42,7 @@ export const getAllChannels = createAsyncThunk('home/getAllChannels', async (_, 
  * @returns {Promise}
  */
 
-export const delChannel = createAsyncThunk<void, any, { state: RootState }>('home/delChannel', async (channel: Channel, { dispatch, getState }) => {
+export const delChannel = createAsyncThunk('home/delChannel', async (channel: Channel, { dispatch, getState }) => {
   //  判断是否登录 如果登录了就调用接口删除 如果没有登录就调用本地缓存删除
   // 不管登录没登录 都需要修改redux中的数据
   const userChannels = getState().homeSlice.userChannels
@@ -66,7 +65,7 @@ export const delChannel = createAsyncThunk<void, any, { state: RootState }>('hom
  * @returns {Promise}
  */
 
-export const addChannel = createAsyncThunk<void, any, { state: RootState }>('home/addChannel', async (channel: Channel, { dispatch, getState }) => {
+export const addChannel = createAsyncThunk('home/addChannel', async (channel: Channel, { dispatch, getState }) => {
   //  判断是否登录 如果登录了就调用接口添加 如果没有登录就调用本地缓存添加
   // 不管登录没登录 都需要修改redux中的数据
   const userChannels = getState().homeSlice.userChannels
@@ -132,7 +131,7 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
  * @returns {Promise}
  */
 
-export const unLikeArticle = createAsyncThunk<void, any, { state: RootState }>('home/unLikeArticle', async (articleId: string, { dispatch, getState }) => {
+export const unLikeArticle = createAsyncThunk('home/unLikeArticle', async (articleId: string, { dispatch, getState }) => {
   await http({
     method: 'post',
     url: '/article/dislikes',
@@ -151,7 +150,7 @@ type ReportArticleParams = {
 }
 
 // articleId string  type number
-export const reportArticle = createAsyncThunk<void, any, { state: RootState }>('home/reportArticle', async ({ articleId, type }: ReportArticleParams, { dispatch, getState }) => {
+export const reportArticle = createAsyncThunk('home/reportArticle', async ({ articleId, type }: ReportArticleParams, { dispatch, getState }) => {
   await http({
     method: 'post',
     url: '/article/dislikes',

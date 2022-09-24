@@ -23,6 +23,22 @@ export type Profile = {
   photo: string
 }
 
+export type SaveUser =
+  | {
+      name: string
+    }
+  | {
+      intro: string
+    }
+  | {
+      gender: number
+    }
+  | {
+      birthday: string
+    }
+  | {
+      photo: string
+    }
 export type Channel = {
   id: number
   name: string

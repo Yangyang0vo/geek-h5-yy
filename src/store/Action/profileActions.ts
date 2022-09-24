@@ -1,13 +1,14 @@
 import http from '@/utils/http'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { saveUser } from '../reducers/profile'
+import { SaveUser } from '../types'
 /**
  * 获取用户基本信息
  * @returns thunk
  */
 export const getUser = createAsyncThunk('profile/getUser', async () => {
   const res = await http('/user')
-  return res.data
+  return res.data.data
 })
 
 /**
@@ -16,7 +17,7 @@ export const getUser = createAsyncThunk('profile/getUser', async () => {
  */
 export const getUserProfile = createAsyncThunk('profile/getUserProfile', async () => {
   const res = await http.get('/user/profile')
-  return res.data
+  return res.data.data
 })
 
 /**
@@ -33,7 +34,7 @@ export const updateUserProfile = createAsyncThunk('profile/updateUserProfile', a
   await http.patch('/user/profile', {
     [name]: value
   })
-  dispatch(saveUser({ [name]: value }))
+  dispatch(saveUser({ [name]: value } as SaveUser))
 })
 
 export const updatePhoto = createAsyncThunk('profile/updatePhoto', async (file: File, { dispatch }) => {

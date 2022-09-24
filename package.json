@@ -40,7 +40,19 @@
   "eslintConfig": {
     "rules": {
       "no-use-before-define": "off",
-      "react/jsx-use-react": "off"
+      "react/jsx-use-react": "off",
+      " no-restricted-imports": "off",
+      "@typescript-eslint/no-restricted-imports": [
+        "warn",
+        {
+          "name": "react-redux",
+          "importNames": [
+            "useSelector",
+            "useDispatch"
+          ],
+          "message": "Use typed hooks `useAppDispatch` and `useAppSelector` instead."
+        }
+      ]
     },
     "extends": [
       "react-app",

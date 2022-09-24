@@ -1,7 +1,7 @@
 // import http from '@/utils/http'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getUser, getUserProfile } from '@/store/action/profileActions'
-import { Profile, User } from '../types'
+import { Profile, SaveUser, User } from '../types'
 
 const profileSlice = createSlice({
   name: 'profile',
@@ -13,7 +13,8 @@ const profileSlice = createSlice({
   },
   reducers: {
     // 数据同步到本地
-    saveUser: (state, { payload }) => {
+    saveUser: (state, { payload }: PayloadAction<SaveUser>) => {
+      console.log(payload)
       state.userProfile = { ...state.userProfile, ...payload }
     }
   },
@@ -29,12 +30,12 @@ const profileSlice = createSlice({
   // }
   extraReducers(builder) {
     // 成功之后保存用户信息
-    builder.addCase(getUser.fulfilled, (state, action) => {
-      state.user = action.payload.data
+    builder.addCase(getUser.fulfilled, (state, { payload }: PayloadAction<User>) => {
+      state.user = payload
     })
     // 成功之后保存用户详情信息
-    builder.addCase(getUserProfile.fulfilled, (state, action) => {
-      state.userProfile = action.payload.data
+    builder.addCase(getUserProfile.fulfilled, (state, { payload }: PayloadAction<Profile>) => {
+      state.userProfile = payload
     })
   }
 })

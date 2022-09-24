@@ -1,5 +1,5 @@
 import { getTokenInfo, removeTokenInfo } from '@/utils/storage'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Token } from '../types'
 
 const initialState: Token = {
@@ -12,7 +12,7 @@ const LoginSlice = createSlice({
   initialState,
   reducers: {
     // 保存token
-    saveToken(state, { payload }: { payload: Token }) {
+    saveToken(state, { payload }: PayloadAction<Token>) {
       state.token = payload.token
       state.refresh_token = payload.refresh_token
     },
