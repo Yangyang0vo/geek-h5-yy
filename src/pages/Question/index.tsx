@@ -1,15 +1,11 @@
 import NavBar from '@/components/NavBar'
 import styles from './index.module.scss'
-import Input from '@/components/Input'
-import Textarea from '@/components/Textarea'
 // import Icon from '@/components/Icon'
 const Question = () => {
   return (
     <div className={styles.root}>
       {/* 顶部导航栏 */}
       <NavBar>问答</NavBar>
-      <Textarea placeholder="111" value="1"></Textarea>
-      <Input></Input>
       {/* 问答列表 */}
       <div className="question-list">
         <div className="question-item">

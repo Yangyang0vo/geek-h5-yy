@@ -8,7 +8,7 @@ type HomeType = {
 }
 type ArticlePayload = {
   channelId: number
-  timestamp?: string | number
+  timestamp?: string 
   articleList: Article[]
 }
 const homeSlice = createSlice({

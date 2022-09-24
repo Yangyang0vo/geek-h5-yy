@@ -9,9 +9,11 @@ import Channels from './components/Channels'
 import ArticleList from './components/ArticleList'
 import MoreAction from '@/pages/Home/components/MoreAction'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const tabs = useAppSelector((state) => state.homeSlice.userChannels)
   const [open, setOpen] = useState(false)
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function Home() {
       </Tabs>
       {/* 频道Tab 栏 右侧的两个图标 搜索、频道列表 */}
       <div className="tabs-opration">
-        <Icon type="iconbtn_search"></Icon>
+        <Icon type="iconbtn_search" onClick={() => navigate('/search')}></Icon>
         <Icon type="iconbtn_channel" onClick={() => setOpen(true)}></Icon>
       </div>
       <Drawer open={open} onClose={() => setOpen(false)} placement={'left'} bodyStyle={{ padding: 0 }} closable={false}>

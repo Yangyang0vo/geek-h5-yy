@@ -9,6 +9,7 @@ const store = configureStore({
     homeSlice
   }
 })
+
 //  设置getState的类型 为RootState
 declare module '@reduxjs/toolkit' {
   type AsyncThunkConfig = {

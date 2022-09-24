@@ -90,7 +90,7 @@ export const addChannel = createAsyncThunk('home/addChannel', async (channel: Ch
 
 type GetArticleListParams = {
   channelId: number
-  timestamp: number | string
+  timestamp: string
   loadMore?: boolean
 }
 export const getArticleList = createAsyncThunk('home/getArticleList', async ({ channelId, timestamp, loadMore = false }: GetArticleListParams, { dispatch }) => {

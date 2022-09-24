@@ -7,7 +7,7 @@ const initialState: Token = {
   refresh_token: getTokenInfo().refresh_token
 }
 
-const LoginSlice = createSlice({
+ const LoginSlice = createSlice({
   name: 'login',
   initialState,
   reducers: {

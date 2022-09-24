@@ -23,14 +23,14 @@ export default function ArtcleList({ channelId, activeId }: ArtcleListProps) {
     if (current) return
     // 如果当前频道id 和选中的频道id 相同 才发请求
     if (channelId === activeId) {
-      dispatch(getArticleList({ channelId, timestamp: Date.now() }))
+      dispatch(getArticleList({ channelId, timestamp: Date.now() + '' }))
     }
   }, [channelId, dispatch, activeId, current])
 
   //下啦刷新
   const onRefresh = async () => {
     // 拿最新数据
-    await dispatch(getArticleList({ channelId, timestamp: Date.now() }))
+    await dispatch(getArticleList({ channelId, timestamp: Date.now() + '' }))
     // 重制更多数据
     setHasMore(true)
     // setLoading(false)

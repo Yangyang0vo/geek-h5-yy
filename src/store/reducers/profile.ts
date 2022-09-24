@@ -1,8 +1,6 @@
-// import http from '@/utils/http'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getUser, getUserProfile } from '@/store/action/profileActions'
 import { Profile, SaveUser, User } from '../types'
-
 const profileSlice = createSlice({
   name: 'profile',
   initialState: {
@@ -14,7 +12,6 @@ const profileSlice = createSlice({
   reducers: {
     // 数据同步到本地
     saveUser: (state, { payload }: PayloadAction<SaveUser>) => {
-      console.log(payload)
       state.userProfile = { ...state.userProfile, ...payload }
     }
   },
@@ -39,5 +36,6 @@ const profileSlice = createSlice({
     })
   }
 })
+
 export const { saveUser } = profileSlice.actions
 export default profileSlice.reducer

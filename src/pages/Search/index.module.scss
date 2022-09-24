@@ -5,9 +5,9 @@
     .navbar {
       @include hairline-remove(bottom);
 
-      .search-text {
-        padding-left: 16px;
-        font-size: 16px;
+      .search-text { 
+        padding-left: 6px;
+        font-size: 12px;
         color: #323233;
       }
     }
