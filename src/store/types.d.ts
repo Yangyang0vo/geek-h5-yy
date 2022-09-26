@@ -76,3 +76,19 @@ export type SearchRes = {
   results: Article[]
   total_count: number
 }
+
+export type Detail = {
+  art_id: string
+  title: string
+  pubdate: string
+  aut_id: string
+  content: string
+  aut_name: string
+  aut_photo: string
+  is_followed: boolean
+  is_collected: boolean
+  attitude: number
+  comm_count: number
+  read_count: number
+  like_count: number
+}

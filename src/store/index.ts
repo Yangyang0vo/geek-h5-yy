@@ -3,12 +3,14 @@ import loginSlice from './reducers/login'
 import profileSlice from './reducers/profile'
 import homeSlice from './reducers/home'
 import SearchSlice from './reducers/search'
+import articleSlice from './reducers/article'
 const store = configureStore({
   reducer: {
     loginSlice,
     profileSlice,
     homeSlice,
-    SearchSlice
+    SearchSlice,
+    articleSlice
   }
 })
 

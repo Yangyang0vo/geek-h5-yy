@@ -7,6 +7,7 @@ import Img from '@/components/Image'
 import { setMoreActionVisible } from '@/store/reducers/home'
 import { Article } from '@/store/types'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { useNavigate } from 'react-router-dom'
 // 扩展dayjs
 dayjs.extend(relativeTime)
 // 导入中文包
@@ -18,17 +19,19 @@ type ArticleItemProps = {
   channelId: number
 }
 const ArticleItem = ({ article, channelId }: ArticleItemProps) => {
+  const navigate = useNavigate()
   const {
     cover: { type, images },
     title,
     aut_name,
     comm_count,
-    pubdate
+    pubdate,
+    art_id
   } = article
   const isLogin = useAppSelector((state) => !!state.loginSlice.token)
   const dispatch = useAppDispatch()
   return (
-    <div className={styles.root}>
+    <div className={styles.root} onClick={() => navigate('/article/' + art_id)}>
       {/* t3 三图 none-mt 无图 */}
       <div className={classnames('article-content', type === 3 ? 't3' : '', type === 0 ? 'none-mt' : '')}>
         <h3>{title}</h3>
