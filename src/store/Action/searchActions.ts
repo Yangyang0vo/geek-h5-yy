@@ -2,7 +2,7 @@ import http from '@/utils/http'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { clearHistories, saveHistories, saveSearchResults, saveSuggestions } from '../reducers/search'
 import { removeLocalHistories, setLocalHistories } from '@/utils/storage'
-import { Article } from '../types'
+import { SearchRes } from '../types'
 /**
  * 获取推荐搜索关键词
  * @param keyword 关键字
@@ -54,15 +54,8 @@ type SearchParams = {
   keyword: string
   page?: number
 }
-// 搜索结果的类型
-export type SearchRes = {
-  page: number
-  per_page: number
-  results: Article[]
-  total_count: number
-}
 
-export const getSearchReslts = createAsyncThunk('search/getSearchReslts', async ({ keyword, page = 1 }: SearchParams, { dispatch, getState }) => {
+export const getSearchReslts = createAsyncThunk('search/getSearchReslts', async ({ keyword, page = 1 }: SearchParams, { dispatch }) => {
   const res = await http.get<SearchRes>('/search', { params: { q: keyword, page } })
-  dispatch(saveSearchResults(res.data.results))
+  dispatch(saveSearchResults(res.data))
 })

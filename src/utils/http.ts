@@ -22,7 +22,6 @@ http.interceptors.request.use((config) => {
     // 设置请求头的 Authorization 字段
     config.headers!['Authorization'] = `Bearer ${token}`
   }
-
   return config
 })
 

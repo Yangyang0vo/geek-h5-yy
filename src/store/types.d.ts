@@ -69,3 +69,10 @@ export type Articles = {
     list: article[]
   }
 }
+// 搜索结果的类型
+export type SearchRes = {
+  page: number
+  per_page: number
+  results: Article[]
+  total_count: number
+}

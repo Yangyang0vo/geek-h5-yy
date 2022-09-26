@@ -1,21 +1,32 @@
 import { getLocalHistories } from '@/utils/storage'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Article } from '../types'
+import { Article, SearchRes } from '../types'
 type SearchType = {
   // 推荐搜索关键词
   suggestions: string[]
   // 搜索历史
   histories: string[]
   // 搜索结果
-  searchResults: Article[]
+  searchResults: {
+    page: number
+    per_page: number
+    total_count: number
+    results: Article[]
+  }
 }
+
 const homeSlice = createSlice({
   name: 'search',
   initialState: {
     // 推荐结果
     suggestions: [],
     histories: getLocalHistories(),
-    searchResults: []
+    searchResults: {
+      page: 0,
+      per_page: 10,
+      total_count: 0,
+      results: []
+    }
   } as SearchType,
   reducers: {
     // 保存搜索建议
@@ -35,8 +46,11 @@ const homeSlice = createSlice({
       state.histories = []
     },
     // 保存搜索结果
-    saveSearchResults: (state, { payload }: PayloadAction<Article[]>) => {
-      state.searchResults = payload
+    saveSearchResults: (state, { payload }: PayloadAction<SearchRes>) => {
+      state.searchResults = {
+        ...payload,
+        results: [...state.searchResults.results, ...payload.results]
+      }
     }
   }
 })
