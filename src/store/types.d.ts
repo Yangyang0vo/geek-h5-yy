@@ -57,7 +57,7 @@ export type Article = {
   comm_count: number
   pubdate: string
   aut_name: string
-  is_top: number
+  is_top?: number
   cover: {
     type: number
     images: string[]

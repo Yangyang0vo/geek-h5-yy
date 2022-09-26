@@ -11,7 +11,7 @@ export const getUserChannels = createAsyncThunk('home/getUserChannels', async (_
   // 1. 判断是否登录
   if (hasToken()) {
     const { data: res } = await http.get('user/channels')
-    dispatch(saveUserChannels(res.data.channels))
+    dispatch(saveUserChannels(res.channels))
   } else {
     // 2. 如果没有登录，则使用本地缓存中的频道数据
     const channels = getLocalChannels()
@@ -20,8 +20,8 @@ export const getUserChannels = createAsyncThunk('home/getUserChannels', async (_
     } else {
       // 3. 如果本地缓存中没有频道数据，则使用默认的频道数据
       const { data: res } = await http.get('user/channels')
-      dispatch(saveUserChannels(res.data.channels))
-      setLocalChannels(res.data.channels)
+      dispatch(saveUserChannels(res.channels))
+      setLocalChannels(res.channels)
     }
   }
 })
@@ -33,7 +33,7 @@ export const getUserChannels = createAsyncThunk('home/getUserChannels', async (_
 
 export const getAllChannels = createAsyncThunk('home/getAllChannels', async (_, { dispatch }) => {
   const { data: res } = await http.get('channels')
-  dispatch(saveAllChannels(res.data.channels))
+  dispatch(saveAllChannels(res.channels))
 })
 
 /**
@@ -109,8 +109,8 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
     dispatch(
       saveMoreArticleList({
         channelId,
-        timestamp: res.data.pre_timestamp,
-        articleList: res.data.results
+        timestamp: res.pre_timestamp,
+        articleList: res.results
       })
     )
   } else {
@@ -118,8 +118,8 @@ export const getArticleList = createAsyncThunk('home/getArticleList', async ({ c
     dispatch(
       saveArticleList({
         channelId,
-        timestamp: res.data.pre_timestamp,
-        articleList: res.data.results
+        timestamp: res.pre_timestamp,
+        articleList: res.results
       })
     )
   }

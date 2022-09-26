@@ -5,8 +5,8 @@ import history from './history'
 import { getTokenInfo, setTokenInfo } from './storage'
 import { logOut, saveToken } from '@/store/reducers/login'
 import store from '@/store/index'
-const baseURL = 'http://geek.itheima.net/v1_0/'
-// const baseURL='http://toutiao.itheima.net/v1_0/'
+// const baseURL = 'http://geek.itheima.net/v1_0/'
+const baseURL = 'http://toutiao.itheima.net/v1_0/'
 // 1. 创建新的 axios 实例
 const http = axios.create({
   timeout: 5000,
@@ -28,7 +28,7 @@ http.interceptors.request.use((config) => {
 
 http.interceptors.response.use(
   (response) => {
-    return response
+    return response.data
   },
   async (error: AxiosError<{ message: string }>) => {
     if (!error.response) {

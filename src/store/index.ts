@@ -2,11 +2,13 @@ import { AsyncThunk, AsyncThunkOptions, AsyncThunkPayloadCreator, configureStore
 import loginSlice from './reducers/login'
 import profileSlice from './reducers/profile'
 import homeSlice from './reducers/home'
+import SearchSlice from './reducers/search'
 const store = configureStore({
   reducer: {
     loginSlice,
     profileSlice,
-    homeSlice
+    homeSlice,
+    SearchSlice
   }
 })
 

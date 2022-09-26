@@ -1,8 +1,9 @@
 import { Channel, Token } from '@/store/types'
-
 // 用户 Token 的本地缓存键名
 const TOKEN_KEY = 'geek-itcast-yy'
 const CHANNEL_KEY = 'geek-itcast-yy-channel'
+// 搜索关键字的本地缓存键名
+const SEARCH_HIS_KEY = 'itcast_history_k'
 
 /**
  * 从本地缓存中获取 Token 信息
@@ -56,4 +57,26 @@ export const getLocalChannels = (): [] => {
  */
 export const removeLocalChannels = () => {
   localStorage.removeItem(CHANNEL_KEY)
+}
+
+/**
+ * 从缓存获取搜索历史关键字
+ */
+export const getLocalHistories = (): string[] => {
+  return JSON.parse(localStorage.getItem(SEARCH_HIS_KEY)!) || []
+}
+
+/**
+ * 将搜索历史关键字存入本地缓存
+ * @param {Array} histories
+ */
+export const setLocalHistories = (histories: string[]) => {
+  localStorage.setItem(SEARCH_HIS_KEY, JSON.stringify(histories))
+}
+
+/**
+ * 删除本地缓存中的搜索历史关键字
+ */
+export const removeLocalHistories = () => {
+  localStorage.removeItem(SEARCH_HIS_KEY)
 }

@@ -24,7 +24,7 @@ type LoginParams = {
 }
 export const login = createAsyncThunk('login/login', async (params: LoginParams, { dispatch }) => {
   const res = await http.post('/authorizations', params)
-  const tokenInfo = res.data.data
+  const tokenInfo = res.data
   // 保存 Token 到 Redux 中
   dispatch(saveToken(tokenInfo))
   //  保存 Token 到本地缓存中

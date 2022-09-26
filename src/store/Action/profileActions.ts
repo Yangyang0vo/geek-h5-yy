@@ -8,7 +8,7 @@ import { SaveUser } from '../types'
  */
 export const getUser = createAsyncThunk('profile/getUser', async () => {
   const res = await http('/user')
-  return res.data.data
+  return res.data
 })
 
 /**
@@ -17,7 +17,7 @@ export const getUser = createAsyncThunk('profile/getUser', async () => {
  */
 export const getUserProfile = createAsyncThunk('profile/getUserProfile', async () => {
   const res = await http.get('/user/profile')
-  return res.data.data
+  return res.data
 })
 
 /**
@@ -41,5 +41,5 @@ export const updatePhoto = createAsyncThunk('profile/updatePhoto', async (file: 
   const formData = new FormData()
   formData.append('photo', file)
   const res = await http.patch('/user/photo', formData)
-  dispatch(saveUser({ photo: res.data.data.photo }))
+  dispatch(saveUser({ photo: res.data.photo }))
 })
