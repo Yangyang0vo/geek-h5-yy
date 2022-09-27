@@ -19,8 +19,14 @@ const article = createSlice({
     },
     saveComment: (state, { payload }: PayloadAction<commentType>) => {
       state.comments = payload
+    },
+    saveMoreComment: (state, { payload }: PayloadAction<commentType>) => {
+      state.comments = {
+        ...payload,
+        results: [...state.comments.results, ...payload.results]
+      }
     }
   }
 })
-export const { saveArticleDetail, saveComment } = article.actions
+export const { saveArticleDetail, saveComment, saveMoreComment } = article.actions
 export default article.reducer

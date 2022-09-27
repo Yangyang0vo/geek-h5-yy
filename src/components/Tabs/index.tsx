@@ -4,14 +4,19 @@ import PropTypes from 'prop-types'
 
 import styles from './index.module.scss'
 import React from 'react'
-
-const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
-  const navRef = useRef()
-  const lineRef = useRef()
+type Props = {
+  index?: number
+  tabs?: any[]
+  children?: any
+  onChange?: (index: number) => void
+}
+const Tabs = ({ index = 0, tabs = [], children, onChange }: Props) => {
+  const navRef = useRef<HTMLDivElement>(null)
+  const lineRef = useRef<HTMLDivElement>(null)
 
   const [activeIndex, setActiveIndex] = useState(index)
 
-  const changeTab = (index) => {
+  const changeTab = (index: number) => {
     setActiveIndex(index)
     onChange && onChange(index)
   }
@@ -26,21 +31,21 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
   useEffect(() => {
     // TODO: 清理上一次的 animate
 
-    const activeTab = navRef.current.children[activeIndex]
+    const activeTab = navRef.current!.children[activeIndex] as HTMLDivElement
     if (!activeTab) return
     const activeTabWidth = activeTab.offsetWidth || 60
     // 注意：第一次获取 offsetLeft 值为 0 ，以后每次获取为 8
     //      所以，设置默认值 8，让所有情况下 offsetLeft 值都相同
     const activeOffsetLeft = activeTab.offsetLeft || 8
-    const tabWidth = navRef.current.offsetWidth || 289
+    const tabWidth = navRef.current!.offsetWidth || 289
 
     const to = activeOffsetLeft - (tabWidth - activeTabWidth) / 2
     // navRef.current.scrollLeft = to
-    const from = navRef.current.scrollLeft
+    const from = navRef.current!.scrollLeft
     const frames = Math.round((0.2 * 1000) / 16)
     let count = 0
     function animate() {
-      navRef.current.scrollLeft += (to - from) / frames
+      navRef.current!.scrollLeft += (to - from) / frames
 
       if (++count < frames) {
         requestAnimationFrame(animate)
@@ -51,7 +56,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
 
     // window.innerWidth / 375： 手动处理 JS 移动端适配
     // 说明：15 表示 Line 宽度的一半
-    lineRef.current.style.transform = `translateX(${activeOffsetLeft + activeTabWidth / 2 - 15 * (window.innerWidth / 375)}px)`
+    lineRef.current!.style.transform = `translateX(${activeOffsetLeft + activeTabWidth / 2 - 15 * (window.innerWidth / 375)}px)`
 
     // 注意： 由于 tabs 数据是动态获取的，所以，为了能够在 tabs 数据加载完成后
     //       获取到 tab，所以，此处将 tabs 作为依赖项。

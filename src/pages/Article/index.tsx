@@ -1,6 +1,6 @@
 import Icon from '@/components/Icon'
 import NavBar from '@/components/NavBar'
-import { getArticleDetail, getCommentList } from '@/store/action/articleActions'
+import { getArticleDetail, getCommentList, getMoreCommentList } from '@/store/action/articleActions'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
@@ -13,6 +13,7 @@ import 'highlight.js/styles/monokai.css'
 import throttle from 'lodash/throttle'
 import NoComment from '@/components/NoneComment'
 import CommentItem from './components/CommentItem'
+import { InfiniteScroll } from 'antd-mobile'
 const Article = () => {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -45,8 +46,8 @@ const Article = () => {
   const authorRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const onScroll = throttle(() => {
-      const { top } = authorRef.current?.getBoundingClientRect()!
-      if (top <= 0) {
+      const rect = authorRef.current?.getBoundingClientRect()!
+      if (rect?.top <= 0) {
         setIsShowTop(true)
       } else {
         setIsShowTop(false)
@@ -61,7 +62,16 @@ const Article = () => {
   // 拿评论数据
   useEffect(() => {
     dispatch(getCommentList(id as string))
-  })
+  }, [dispatch, id])
+  const hasMore = comments.end_id !== comments.last_id
+  const loadMore = async () => {
+    await dispatch(
+      getMoreCommentList({
+        id: id as string,
+        offset: comments.last_id
+      })
+    )
+  }
   return (
     <div className={styles.root}>
       <div className="root-wrapper">
@@ -95,7 +105,7 @@ const Article = () => {
               <div className="info">
                 <span>{dayjs(article.pubdate).format('YYYY-MM-DD')}</span>
                 <span>{article.read_count} 阅读</span>
-                <span>{article.read_count} 评论</span>
+                <span>{article.comm_count} 评论</span>
               </div>
 
               <div className="author" ref={authorRef}>
@@ -133,12 +143,7 @@ const Article = () => {
                 {comments.results?.map((item) => {
                   return <CommentItem key={item.com_id} comment={item} />
                 })}
-
-                {/* 评论正在加载时显示的信息 */}
-                {/* {isLoadingComment && <div className="list-loading">加载中...</div>} */}
-
-                <div className="no-more">没有更多了</div>
-                <div className="placeholder"></div>
+                <InfiniteScroll hasMore={hasMore} loadMore={loadMore}></InfiniteScroll>
               </div>
             )}
           </div>

@@ -21,7 +21,7 @@ import styles from './index.module.scss'
  */
 type Props = {
   comment: comment
-  type?: string
+  type?: 'normal' | 'origin ' | 'reply'
   onThumbsUp?: () => void
   onOpenReply?: (id: string) => void
 }

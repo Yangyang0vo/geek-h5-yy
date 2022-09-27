@@ -107,7 +107,7 @@ export type comment = {
 }
 export type commentType = {
   end_id: string
-  last_ids: string
+  last_id: string
   results: comment[]
   total_count: number
 }
