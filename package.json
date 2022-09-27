@@ -20,6 +20,7 @@
     "dayjs": "^1.11.5",
     "dompurify": "^2.4.0",
     "formik": "^2.2.9",
+    "highlight.js": "^11.6.0",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -33,7 +34,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "react-app-rewired  start ",
     "build": "react-app-rewired build",
     "test": "craco test",
     "eject": "react-scripts eject"
