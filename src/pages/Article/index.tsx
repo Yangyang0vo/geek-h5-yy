@@ -1,6 +1,6 @@
 import Icon from '@/components/Icon'
 import NavBar from '@/components/NavBar'
-import { getArticleDetail } from '@/store/action/articleActions'
+import { getArticleDetail, getCommentList } from '@/store/action/articleActions'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
@@ -10,11 +10,14 @@ import styles from './index.module.scss'
 import * as DOMPurify from 'dompurify'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/monokai.css'
+import throttle from 'lodash/throttle'
+import NoComment from '@/components/NoneComment'
+import CommentItem from './components/CommentItem'
 const Article = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const dispatch = useAppDispatch()
-  const article = useAppSelector((state) => state.articleSlice.detail)
+  const { detail: article, comments } = useAppSelector((state) => state.articleSlice)
   useEffect(() => {
     dispatch(getArticleDetail(id!))
   }, [dispatch, id])
@@ -41,20 +44,24 @@ const Article = () => {
   const [isShowTop, setIsShowTop] = useState(false)
   const authorRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    const onScroll = () => {
+    const onScroll = throttle(() => {
       const { top } = authorRef.current?.getBoundingClientRect()!
       if (top <= 0) {
         setIsShowTop(true)
       } else {
         setIsShowTop(false)
       }
-    }
+    }, 300)
 
     document.addEventListener('scroll', onScroll)
     return () => {
       document.removeEventListener('scroll', onScroll)
     }
   }, [])
+  // 拿评论数据
+  useEffect(() => {
+    dispatch(getCommentList(id as string))
+  })
   return (
     <div className={styles.root}>
       <div className="root-wrapper">
@@ -109,6 +116,31 @@ const Article = () => {
               <div className="content-html dg-html" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}></div>
               <div className="date">发布文章时间：{dayjs(article.pubdate).format('YYYY-MM-DD')}</div>
             </div>
+          </div>
+          <div className="comment">
+            {/* 评论总览信息 */}
+            <div className="comment-header">
+              <span>全部评论（{article.comm_count}）</span>
+              <span>{article.like_count} 点赞</span>
+            </div>
+
+            {article.comm_count === 0 ? (
+              // 没有评论时显示的界面
+              <NoComment />
+            ) : (
+              // 有评论时显示的评论列表
+              <div className="comment-list">
+                {comments.results?.map((item) => {
+                  return <CommentItem key={item.com_id} comment={item} />
+                })}
+
+                {/* 评论正在加载时显示的信息 */}
+                {/* {isLoadingComment && <div className="list-loading">加载中...</div>} */}
+
+                <div className="no-more">没有更多了</div>
+                <div className="placeholder"></div>
+              </div>
+            )}
           </div>
         </div>
       </div>

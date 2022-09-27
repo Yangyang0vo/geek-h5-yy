@@ -92,3 +92,22 @@ export type Detail = {
   read_count: number
   like_count: number
 }
+
+export type comment = {
+  aut_id: string
+  aut_name: string
+  aut_photo: string
+  com_id: string
+  content: string
+  is_followed: boolean
+  is_liking: boolean
+  like_count: number
+  pubdate: string
+  reply_count: number
+}
+export type commentType = {
+  end_id: string
+  last_ids: string
+  results: comment[]
+  total_count: number
+}

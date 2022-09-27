@@ -2,12 +2,12 @@ import classnames from 'classnames'
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import Img from '@/components/Image'
 import { setMoreActionVisible } from '@/store/reducers/home'
 import { Article } from '@/store/types'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useNavigate } from 'react-router-dom'
+import relativeTime from 'dayjs/plugin/relativeTime'
 // 扩展dayjs
 dayjs.extend(relativeTime)
 // 导入中文包
