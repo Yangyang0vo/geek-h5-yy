@@ -117,7 +117,7 @@ const Article = () => {
                 <span className="name">{article.aut_name}</span>
                 <span
                   className={classNames('follow', {
-                    followed: article.is_collected
+                    followed: article.is_followed
                   })}
                 >
                   {article.is_followed ? '已关注' : '关注'}

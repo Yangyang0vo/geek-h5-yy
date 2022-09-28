@@ -1,6 +1,6 @@
 import http from '@/utils/http'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { saveArticleDetail, saveComment, saveMoreComment, setAttitude } from '../reducers/article'
+import { saveArticleDetail, saveComment, saveMoreComment, setAttitude, setCollect } from '../reducers/article'
 import { commentType } from '../types'
 
 /**
@@ -61,5 +61,19 @@ export const likeArticle = createAsyncThunk('article/likeArticle', async ({ id, 
       target: id
     })
     dispatch(setAttitude(1))
+  }
+})
+
+export const collectArticle = createAsyncThunk('article/collectArticle', async ({ id, collected }: { id: string; collected: boolean }, { dispatch }) => {
+  if (collected) {
+    // 已收藏 取消收藏
+    await http.delete(`article/collections/${id}`)
+    dispatch(setCollect(false))
+  } else {
+    // 收藏
+    await http.post(`article/collections`, {
+      target: id
+    })
+    dispatch(setCollect(true))
   }
 })

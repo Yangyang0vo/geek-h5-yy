@@ -32,8 +32,11 @@ const article = createSlice({
     // 保存文章点赞状态
     setAttitude: (state, { payload }: PayloadAction<number>) => {
       state.detail.attitude = payload
+    },
+    setCollect: (state, { payload }: PayloadAction<boolean>) => {
+      state.detail.is_collected = payload
     }
   }
 })
-export const { saveArticleDetail, saveComment, saveMoreComment, setAttitude } = article.actions
+export const { saveArticleDetail, saveComment, saveMoreComment, setAttitude, setCollect } = article.actions
 export default article.reducer
