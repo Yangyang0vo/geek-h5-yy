@@ -1,5 +1,6 @@
 import Icon from '@/components/Icon'
-import { useAppSelector } from '@/store/hooks'
+import { likeArticle } from '@/store/action/articleActions'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import styles from './index.module.scss'
 
 /**
@@ -16,7 +17,11 @@ import styles from './index.module.scss'
  * @param {String} props.type  评论类型：normal 普通评论 | reply 回复评论
  */
 const CommentFooter = () => {
+  const dispatch = useAppDispatch()
   const { detail: article } = useAppSelector((state) => state.articleSlice)
+  const onLike = () => {
+    dispatch(likeArticle({ id: article.art_id, attitude: article.attitude }))
+  }
   return (
     <div className={styles.root}>
       {/* 输入框（是个假的输入框，其实就是个按钮） */}
@@ -34,7 +39,7 @@ const CommentFooter = () => {
         </div>
 
         {/* 点赞按钮 */}
-        <div className="action-item">
+        <div className="action-item" onClick={onLike}>
           <Icon type={article.attitude === 1 ? 'iconbtn_like_sel' : 'iconbtn_like2'} />
           {/* <Icon type='iconbtn_like2'></Icon> */}
           <p>点赞</p>

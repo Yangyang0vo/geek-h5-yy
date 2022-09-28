@@ -53,7 +53,7 @@ http.interceptors.response.use(
     if (!refresh_token) {
       // 2. 如果没有 直接跳转到登录页面
       history.replace('/login', { from: history.location.pathname })
-      history.go(0)
+      // history.go(0)
       return Promise.reject(error)
     }
     // 有刷新token  重新请求获取新的token

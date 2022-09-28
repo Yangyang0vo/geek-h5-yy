@@ -1,11 +1,13 @@
 import NavBar from '@/components/NavBar'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 // import Icon from '@/components/Icon'
 const Question = () => {
+  const navigate = useNavigate()
   return (
     <div className={styles.root}>
       {/* 顶部导航栏 */}
-      <NavBar>问答</NavBar>
+      <NavBar onLeftClick={() => navigate(-1)}>问答</NavBar>
       {/* 问答列表 */}
       <div className="question-list">
         <div className="question-item">

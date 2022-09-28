@@ -1,11 +1,13 @@
 import NavBar from '@/components/NavBar'
+import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 
 const Video = () => {
+  const navigate = useNavigate()
   return (
     <div className={styles.root}>
       {/* 顶部导航栏 */}
-      <NavBar>视频</NavBar>
+      <NavBar onLeftClick={() => navigate(-1)}>视频</NavBar>
 
       {/* 视频列表 */}
       <div className="video-list">

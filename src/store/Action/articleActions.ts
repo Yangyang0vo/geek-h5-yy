@@ -1,6 +1,6 @@
 import http from '@/utils/http'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { saveArticleDetail, saveComment, saveMoreComment } from '../reducers/article'
+import { saveArticleDetail, saveComment, saveMoreComment, setAttitude } from '../reducers/article'
 import { commentType } from '../types'
 
 /**
@@ -43,4 +43,23 @@ export const getMoreCommentList = createAsyncThunk('article/getMoreCommentList',
     }
   })
   dispatch(saveMoreComment(res.data))
+})
+
+/**
+ * 点赞文章
+ * @param id 文章id
+ * @param attitude 点赞状态 -1 无态度 1 点赞
+ */
+export const likeArticle = createAsyncThunk('article/likeArticle', async ({ id, attitude }: { id: string; attitude: number }, { dispatch }) => {
+  if (attitude === 1) {
+    // 点过赞 取消点赞
+    await http.delete(`article/likings/${id}`)
+    dispatch(setAttitude(-1))
+  } else {
+    // 点赞
+    await http.post(`article/likings`, {
+      target: id
+    })
+    dispatch(setAttitude(1))
+  }
 })

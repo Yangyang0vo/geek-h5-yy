@@ -6,7 +6,6 @@ import Input from '@/components/Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import classnames from 'classnames'
-
 import { Toast } from 'antd-mobile'
 import { login, sendValidationCode } from '@/store/action/loginActions'
 import { useAppDispatch } from '@/store/hooks'
@@ -23,7 +22,6 @@ export default function Login() {
       code: '246810'
     },
     // 登录
-
     onSubmit: async (values) => {
       const res = await dispatch(login(values))
       // 判断是否重定向到此处 有无pathname 有则跳回去，无则跳转到首页
@@ -97,11 +95,20 @@ export default function Login() {
       }
     }, 1000)
   }
-
+  const back = () => {
+    const state = location.state as NavigateProps['state']
+    // 进入需要访问权限的页面 被AuthRoute拦截到此处时 点左上角返回 则默认跳转到首页
+    if (state.from === '/home/profile' || state.from === '/profile/edit' || state.from === '/profile/chat') {
+      navigate('/home/index', { replace: true })
+    } else {
+      // 不需要访问权限的页面 因发送请求等需要登录的操作而拦截过来 直接返回上一页
+      navigate(state.from, { replace: true })
+    }
+  }
   return (
     <div className={styles.root}>
       {/* 标题 */}
-      <NavBar onLeftClick={() => navigate('/home/index')}>登录</NavBar>
+      <NavBar onLeftClick={back}>登录</NavBar>
       {/* 内容 */}
       <div className="content">
         <h3>短信登录</h3>

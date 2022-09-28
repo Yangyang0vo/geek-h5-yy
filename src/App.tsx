@@ -19,7 +19,7 @@ export default function App() {
         <Suspense fallback={<div>loading...</div>}>
           <Routes>
             {/* 使用tab布局的页面 */}
-            <Route path="/" element={<Navigate to={'/home/index'} />} />
+            <Route  path="/" element={<Navigate to={'/home/index'} />} />
             <Route path="/home/*" element={<Home />} />
             {/* 不使用tab布局的页面 */}
             {/* <Route path="*" element={<TabBarLayout />}></Route> */}

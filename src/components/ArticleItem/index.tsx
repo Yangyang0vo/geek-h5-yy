@@ -5,9 +5,10 @@ import dayjs from 'dayjs'
 import Img from '@/components/Image'
 import { setMoreActionVisible } from '@/store/reducers/home'
 import { Article } from '@/store/types'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector, useHistory } from '@/store/hooks'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import history from '@/utils/history'
+
 // 扩展dayjs
 dayjs.extend(relativeTime)
 // 导入中文包
@@ -19,7 +20,6 @@ type ArticleItemProps = {
   channelId: number
 }
 const ArticleItem = ({ article, channelId }: ArticleItemProps) => {
-  const navigate = useNavigate()
   const {
     cover: { type, images },
     title,
@@ -30,8 +30,10 @@ const ArticleItem = ({ article, channelId }: ArticleItemProps) => {
   } = article
   const isLogin = useAppSelector((state) => !!state.loginSlice.token)
   const dispatch = useAppDispatch()
+  // 使用自定义的history hook
+  useHistory()
   return (
-    <div className={styles.root} onClick={() => navigate('/article/' + art_id)}>
+    <div className={styles.root} onClick={() => history.push(`/article/${art_id}`)}>
       {/* t3 三图 none-mt 无图 */}
       <div className={classnames('article-content', type === 3 ? 't3' : '', type === 0 ? 'none-mt' : '')}>
         <h3>{title}</h3>

@@ -1,7 +1,7 @@
 import Icon from '@/components/Icon'
 import NavBar from '@/components/NavBar'
 import { getArticleDetail, getCommentList, getMoreCommentList } from '@/store/action/articleActions'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { useAppDispatch, useAppSelector, useHistory } from '@/store/hooks'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
 import { useEffect, useRef, useState } from 'react'
@@ -15,10 +15,13 @@ import NoComment from '@/components/NoneComment'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
 import { InfiniteScroll } from 'antd-mobile'
+
 const Article = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const dispatch = useAppDispatch()
+  // 使用自定义的history hook
+  useHistory()
   const { detail: article, comments } = useAppSelector((state) => state.articleSlice)
   useEffect(() => {
     dispatch(getArticleDetail(id!))
