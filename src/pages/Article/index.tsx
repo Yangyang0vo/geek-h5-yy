@@ -1,6 +1,6 @@
 import Icon from '@/components/Icon'
 import NavBar from '@/components/NavBar'
-import { getArticleDetail, getCommentList, getMoreCommentList } from '@/store/action/articleActions'
+import { followAuthor, getArticleDetail, getCommentList, getMoreCommentList } from '@/store/action/articleActions'
 import { useAppDispatch, useAppSelector, useHistory } from '@/store/hooks'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
@@ -14,7 +14,9 @@ import throttle from 'lodash/throttle'
 import NoComment from '@/components/NoneComment'
 import CommentItem from './components/CommentItem'
 import CommentFooter from './components/CommentFooter'
-import { InfiniteScroll } from 'antd-mobile'
+import { InfiniteScroll, Toast } from 'antd-mobile'
+import { Dialog } from 'antd-mobile'
+import Sticky from '@/components/Sticky'
 
 const Article = () => {
   const navigate = useNavigate()
@@ -76,6 +78,38 @@ const Article = () => {
       })
     )
   }
+  const follow = async () => {
+    if (article.is_followed) {
+      Dialog.confirm({
+        content: '已关注，确定取消关注吗？',
+        onConfirm: async () => {
+          await dispatch(followAuthor({ id: article.aut_id, is_followed: article.is_followed }))
+          Toast.show({
+            icon: 'success',
+            content: '取消关注成功',
+            duration: 1000
+          })
+        }
+      })
+    } else {
+      await dispatch(followAuthor({ id: article.aut_id, is_followed: article.is_followed }))
+      Toast.show({
+        icon: 'success',
+        content: '关注成功!',
+        duration: 1000
+      })
+    }
+  }
+  const commentRef = useRef<HTMLDivElement>(null)
+  const isCommennt = useRef(false)
+  const goComment = () => {
+    if (isCommennt.current) {
+      window.scrollTo(0, 0)
+    } else {
+      window.scrollTo(0, commentRef.current?.offsetTop!)
+    }
+    isCommennt.current = !isCommennt.current
+  }
   return (
     <div className={styles.root}>
       <div className="root-wrapper">
@@ -93,7 +127,9 @@ const Article = () => {
             <div className="nav-author">
               <img src={article.aut_photo} alt="" />
               <span className="name">{article.aut_name}</span>
-              <span className={classNames('follow', article.is_followed ? 'followed' : '')}>{article.is_followed ? '已关注' : '关注'}</span>
+              <span className={classNames('follow', article.is_followed ? 'followed' : '')} onClick={follow}>
+                {article.is_followed ? '已关注' : '关注'}
+              </span>
             </div>
           ) : (
             '文章详情'
@@ -119,6 +155,7 @@ const Article = () => {
                   className={classNames('follow', {
                     followed: article.is_followed
                   })}
+                  onClick={follow}
                 >
                   {article.is_followed ? '已关注' : '关注'}
                 </span>
@@ -133,10 +170,12 @@ const Article = () => {
           </div>
           <div className="comment">
             {/* 评论总览信息 */}
-            <div className="comment-header">
-              <span>全部评论（{article.comm_count}）</span>
-              <span>{article.like_count} 点赞</span>
-            </div>
+            <Sticky top={46}>
+              <div className="comment-header" ref={commentRef}>
+                <span>全部评论（{article.comm_count}）</span>
+                <span>{article.like_count} 点赞</span>
+              </div>
+            </Sticky>
 
             {article.comm_count === 0 ? (
               // 没有评论时显示的界面
@@ -152,7 +191,7 @@ const Article = () => {
             )}
           </div>
           {/* 评论工具栏 */}
-          <CommentFooter />
+          <CommentFooter goComment={goComment} />
         </div>
       </div>
     </div>

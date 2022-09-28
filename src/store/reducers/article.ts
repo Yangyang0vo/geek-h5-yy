@@ -29,14 +29,11 @@ const article = createSlice({
         results: [...state.comments.results, ...payload.results]
       }
     },
-    // 保存文章点赞状态
-    setAttitude: (state, { payload }: PayloadAction<number>) => {
-      state.detail.attitude = payload
-    },
-    setCollect: (state, { payload }: PayloadAction<boolean>) => {
-      state.detail.is_collected = payload
+    // 保存文章作者关注状态
+    setFollowAuthor: (state, { payload }: PayloadAction<boolean>) => {
+      state.detail.is_followed = payload
     }
   }
 })
-export const { saveArticleDetail, saveComment, saveMoreComment, setAttitude, setCollect } = article.actions
+export const { saveArticleDetail, saveComment, saveMoreComment, setFollowAuthor } = article.actions
 export default article.reducer

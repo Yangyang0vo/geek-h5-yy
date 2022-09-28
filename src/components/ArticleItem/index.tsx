@@ -33,9 +33,9 @@ const ArticleItem = ({ article, channelId }: ArticleItemProps) => {
   // 使用自定义的history hook
   useHistory()
   return (
-    <div className={styles.root} onClick={() => history.push(`/article/${art_id}`)}>
+    <div className={styles.root}>
       {/* t3 三图 none-mt 无图 */}
-      <div className={classnames('article-content', type === 3 ? 't3' : '', type === 0 ? 'none-mt' : '')}>
+      <div className={classnames('article-content', type === 3 ? 't3' : '', type === 0 ? 'none-mt' : '')} onClick={() => history.push(`/article/${art_id}`)}>
         <h3>{title}</h3>
         {type !== 0 && (
           <div className="article-imgs">

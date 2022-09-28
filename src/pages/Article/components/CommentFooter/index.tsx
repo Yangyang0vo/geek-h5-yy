@@ -16,7 +16,10 @@ import styles from './index.module.scss'
  * @param {Function} props.onShare 点击”分享”按钮的回调函数
  * @param {String} props.type  评论类型：normal 普通评论 | reply 回复评论
  */
-const CommentFooter = () => {
+type Props = {
+  goComment: () => void
+}
+const CommentFooter = ({ goComment }: Props) => {
   const dispatch = useAppDispatch()
   const { detail: article } = useAppSelector((state) => state.articleSlice)
   // 点赞
@@ -27,6 +30,7 @@ const CommentFooter = () => {
   const collect = () => {
     dispatch(collectArticle({ id: article.art_id, collected: article.is_collected }))
   }
+
   return (
     <div className={styles.root}>
       {/* 输入框（是个假的输入框，其实就是个按钮） */}
@@ -37,7 +41,7 @@ const CommentFooter = () => {
 
       <>
         {/* 评论按钮 */}
-        <div className="action-item">
+        <div className="action-item" onClick={goComment}>
           <Icon type="iconbtn_comment" />
           <p>评论</p>
           {article.comm_count !== 0 && <span className="bage">{article.comm_count}</span>}
@@ -46,7 +50,6 @@ const CommentFooter = () => {
         {/* 点赞按钮 */}
         <div className="action-item" onClick={onLike}>
           <Icon type={article.attitude === 1 ? 'iconbtn_like_sel' : 'iconbtn_like2'} />
-          {/* <Icon type='iconbtn_like2'></Icon> */}
           <p>点赞</p>
         </div>
       </>

@@ -1,6 +1,6 @@
 import http from '@/utils/http'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { saveArticleDetail, saveComment, saveMoreComment, setAttitude, setCollect } from '../reducers/article'
+import { saveArticleDetail, saveComment, saveMoreComment, setFollowAuthor } from '../reducers/article'
 import { commentType } from '../types'
 
 /**
@@ -54,26 +54,47 @@ export const likeArticle = createAsyncThunk('article/likeArticle', async ({ id, 
   if (attitude === 1) {
     // 点过赞 取消点赞
     await http.delete(`article/likings/${id}`)
-    dispatch(setAttitude(-1))
   } else {
     // 点赞
     await http.post(`article/likings`, {
       target: id
     })
-    dispatch(setAttitude(1))
   }
+  dispatch(getArticleDetail(id))
 })
-
+/**
+ * 收藏文章
+ * @param id 文章id
+ * @param is_collected 是否收藏
+ */
 export const collectArticle = createAsyncThunk('article/collectArticle', async ({ id, collected }: { id: string; collected: boolean }, { dispatch }) => {
   if (collected) {
     // 已收藏 取消收藏
     await http.delete(`article/collections/${id}`)
-    dispatch(setCollect(false))
   } else {
     // 收藏
     await http.post(`article/collections`, {
       target: id
     })
-    dispatch(setCollect(true))
+  }
+  dispatch(getArticleDetail(id))
+})
+
+/**
+ * 关注作者
+ * @param id 作者id
+ * @param is_followed 是否关注
+ */
+export const followAuthor = createAsyncThunk('article/followAuthor', async ({ id, is_followed }: { id: string; is_followed: boolean }, { dispatch }) => {
+  if (is_followed) {
+    // 已关注 取消关注
+    await http.delete(`user/followings/${id}`)
+    dispatch(setFollowAuthor(false))
+  } else {
+    // 关注
+    await http.post(`user/followings`, {
+      target: id
+    })
+    dispatch(setFollowAuthor(true))
   }
 })
