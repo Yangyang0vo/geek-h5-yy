@@ -13,6 +13,7 @@ import 'highlight.js/styles/monokai.css'
 import throttle from 'lodash/throttle'
 import NoComment from '@/components/NoneComment'
 import CommentItem from './components/CommentItem'
+import CommentFooter from './components/CommentFooter'
 import { InfiniteScroll } from 'antd-mobile'
 const Article = () => {
   const navigate = useNavigate()
@@ -147,6 +148,8 @@ const Article = () => {
               </div>
             )}
           </div>
+          {/* 评论工具栏 */}
+          <CommentFooter />
         </div>
       </div>
     </div>
