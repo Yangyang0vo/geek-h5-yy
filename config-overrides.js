@@ -1,5 +1,5 @@
 // @ts-nocheck
-const { override, addWebpackAlias, addPostcssPlugins, addBabelPlugins } = require('customize-cra')
+const { override, addWebpackAlias, addPostcssPlugins, addBabelPlugins, addWebpackExternals } = require('customize-cra')
 const path = require('path')
 const pxtoviewport = require('postcss-px-to-viewport')
 // const webpack = require('webpack')
@@ -19,10 +19,22 @@ const postcssPlugins = addPostcssPlugins([
 //
 const babelPlugins = addBabelPlugins(['import', { libraryName: 'antd', style: 'css' }])
 
+//  排除第三方的依赖包
+// 区分开发环境和生产环境
+const environment =
+  process.env.NODE_ENV === 'production'
+    ? {
+        react: 'React',
+        'react-dom': 'ReactDOM'
+      }
+    : {}
+
+const externals = addWebpackExternals(environment)
 module.exports = override(
   alias,
   postcssPlugins,
-  babelPlugins
+  babelPlugins,
+  externals
   // addWebpackPlugin(
   //   new webpack.DefinePlugin({
   //     process: { env: {} }

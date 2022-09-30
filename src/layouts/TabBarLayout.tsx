@@ -26,7 +26,6 @@ const buttons = [
 export default function TabBarLayout() {
   const location = useLocation()
   let navigate = useNavigate()
-
   return (
     <div className={styles.root}>
       {/* 区域一：点击按钮切换显示内容的区域 */}
@@ -36,7 +35,7 @@ export default function TabBarLayout() {
             <Route
               path="index"
               element={
-                <KeepAlive cacheKey="Home">
+                <KeepAlive id="Home" cacheKey="Home" name="Home" when={() => [true]}>
                   <Home />
                 </KeepAlive>
               }

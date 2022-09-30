@@ -123,8 +123,6 @@ export const SendComment = createAsyncThunk('article/addComment', async ({ id, c
  * @param attitude 点赞状态 boolean
  */
 export const likeComment = createAsyncThunk('article/likeComment', async ({ id, isLiking }: { id: string; isLiking: boolean }, { dispatch, getState }) => {
-  console.log(id, isLiking)
-  
   // 获取评论数据
   const { comments } = getState().articleSlice
   const { results } = comments

@@ -15,7 +15,10 @@
     <script src="//at.alicdn.com/t/font_2503709_f4q9dl3hktl.js"></script>
     <script src="//at.alicdn.com/t/c/font_3630859_z80t59pf4b.js"></script>
     <meta name="referrer" content="never" />
-
+    <% if (process.env.NODE_ENV === 'production') { %>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <% } %>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.

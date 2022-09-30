@@ -45,6 +45,7 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }: Props) => {
     const frames = Math.round((0.2 * 1000) / 16)
     let count = 0
     function animate() {
+      if (navRef.current!) return
       navRef.current!.scrollLeft += (to - from) / frames
 
       if (++count < frames) {

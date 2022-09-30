@@ -1,4 +1,9 @@
 @import '@scss/hairline.scss';
+:global {
+  .nmlgb {
+    display: block !important;
+  }
+}
 
 .root {
   height: 100vh;

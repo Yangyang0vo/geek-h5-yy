@@ -10,11 +10,13 @@ import ArticleList from './components/ArticleList'
 import MoreAction from '@/pages/Home/components/MoreAction'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useNavigate } from 'react-router-dom'
+
 export default function Home() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const tabs = useAppSelector((state) => state.homeSlice.userChannels)
   const [open, setOpen] = useState(false)
+
   useEffect(() => {
     // 获取用户频道列表
     dispatch(getUserChannels())
@@ -27,6 +29,7 @@ export default function Home() {
   const changeActive = (e: number) => {
     setActiveIndex(e)
   }
+
   return (
     <div className={styles.root}>
       <Tabs tabs={tabs || []} index={activeIndex} onChange={changeActive}>
