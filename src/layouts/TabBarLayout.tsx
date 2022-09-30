@@ -5,6 +5,8 @@ import styles from './index.module.scss'
 import Icon from '@/components/Icon'
 import AuthRoute from '@/components/AuthRoute'
 import NotFound from '@/pages/NotFound'
+import KeepAlive from 'react-activation'
+
 const Home = React.lazy(() => import('@/pages/Home'))
 const Question = React.lazy(() => import('@/pages/Question'))
 const Video = React.lazy(() => import('@/pages/Video'))
@@ -24,13 +26,21 @@ const buttons = [
 export default function TabBarLayout() {
   const location = useLocation()
   let navigate = useNavigate()
+
   return (
     <div className={styles.root}>
       {/* 区域一：点击按钮切换显示内容的区域 */}
       <div className="tab-content">
         <Suspense fallback={<div>loading...</div>}>
           <Routes>
-            <Route path="index" element={<Home />}></Route>
+            <Route
+              path="index"
+              element={
+                <KeepAlive cacheKey="Home">
+                  <Home />
+                </KeepAlive>
+              }
+            ></Route>
             <Route path="question" element={<Question />}></Route>
             <Route path="video" element={<Video />}></Route>
 

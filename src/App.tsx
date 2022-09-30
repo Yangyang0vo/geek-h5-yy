@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import React, { Suspense } from 'react'
 import AuthRoute from './components/AuthRoute'
+
 // 路由懒加载
 const Login = React.lazy(() => import('@/pages/Login'))
 const Home = React.lazy(() => import('@/layouts/TabBarLayout'))
