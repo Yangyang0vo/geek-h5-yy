@@ -24,7 +24,8 @@ const Sticky = ({ children, top = 0 }: Props) => {
     const onScroll = () => {
       const place = placeRef.current!
       const child = childrenRef.current!
-      if (place.getBoundingClientRect().top <= value) {
+      if (!place || !child) return
+      if (place?.getBoundingClientRect()?.top <= value) {
         child.style.position = 'fixed'
         child.style.top = `${value}px`
         place.style.height = child.offsetHeight + 'px'

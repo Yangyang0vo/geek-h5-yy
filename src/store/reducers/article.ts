@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { commentType, Detail } from '../types'
+import { Comment, CommentType, Detail } from '../types'
 
 type initialState = {
   detail: Detail
-  comments: commentType
+  comments: CommentType
 }
 const article = createSlice({
   name: 'article',
@@ -19,21 +19,33 @@ const article = createSlice({
       state.detail = payload
     },
     // 保存文章评论
-    saveComment: (state, { payload }: PayloadAction<commentType>) => {
+    saveComment: (state, { payload }: PayloadAction<CommentType>) => {
       state.comments = payload
     },
     // 保存更多文章评论
-    saveMoreComment: (state, { payload }: PayloadAction<commentType>) => {
+    saveMoreComment: (state, { payload }: PayloadAction<CommentType>) => {
       state.comments = {
         ...payload,
         results: [...state.comments.results, ...payload.results]
       }
     },
-    // 保存文章作者关注状态
-    setFollowAuthor: (state, { payload }: PayloadAction<boolean>) => {
-      state.detail.is_followed = payload
+    // 添加新评论
+    addNewComment(state, { payload }: PayloadAction<Comment>) {
+      state.comments.results = [payload, ...state.comments.results]
+    },
+    // 更新评论
+    updateComment: (state, { payload }: PayloadAction<Comment>) => {
+      state.comments.results = state.comments.results.map((item) => {
+        if (item.aut_id === payload.aut_id) {
+          return payload
+        }
+        return item
+      })
+    },
+    setArticleComments: (state, { payload }: PayloadAction<Comment[]>) => {
+      state.comments.results = [...payload]
     }
   }
 })
-export const { saveArticleDetail, saveComment, saveMoreComment, setFollowAuthor } = article.actions
+export const { saveArticleDetail, saveComment, saveMoreComment, addNewComment, updateComment, setArticleComments } = article.actions
 export default article.reducer

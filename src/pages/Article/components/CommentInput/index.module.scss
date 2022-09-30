@@ -3,6 +3,9 @@
   background-color: #fff;
 
   :global {
+    .right {
+      padding: 0;
+    }
     .publish {
       color: #fc6627;
       font-size: 17px;
@@ -15,7 +18,9 @@
       &::placeholder {
         font-size: 16px;
       }
-
+      textarea {
+        resize: none;
+      }
       .at {
         color: #969799;
       }

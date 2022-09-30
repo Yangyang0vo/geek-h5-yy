@@ -1,9 +1,9 @@
 @import '@scss/hairline.scss';
-
 .root {
   height: 100%;
   padding-top: 46px;
   padding-bottom: 50px;
+
   :global {
     .NavBar {
       position: fixed;
@@ -211,35 +211,58 @@
       }
     }
 
-    .drawer {
-      .am-drawer-sidebar {
-        height: 100%;
-      }
+    // .drawer {
+    //   .am-drawer-sidebar {
+    //     height: 100%;
+    //   }
 
-      .drawer-sidebar-wrapper {
-        height: 100%;
-        width: 100%;
-        background-color: #fff;
+    //   .drawer-sidebar-wrapper {
+    //     height: 100%;
+    //     width: 100%;
+    //     background-color: #fff;
+    //   }
+    // }
+
+    // .drawer-right {
+    //   .am-drawer-sidebar {
+    //     width: 100%;
+    //   }
+
+    //   .drawer-sidebar-wrapper {
+    //     height: 100%;
+    //     width: 100%;
+    //     background-color: #fff;
+    //     border-radius: 20px 20px 0px 0px;
+    //   }
+    // }
+
+    // .drawer-share {
+    //   .am-drawer-sidebar {
+    //     box-shadow: none !important;
+    //   }
+    //   .ant-drawer-content {
+    //     background-color: pink;
+    //   }
+    // }
+  }
+}
+
+:global {
+  .ant-drawer-body {
+    padding: 0;
+  }
+  .share {
+    .ant-drawer-content-wrapper {
+      height: 312px !important;
+      .ant-drawer-content {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
       }
     }
-
-    .drawer-right {
-      .am-drawer-sidebar {
-        width: 100%;
-      }
-
-      .drawer-sidebar-wrapper {
-        height: 100%;
-        width: 100%;
-        background-color: #fff;
-        border-radius: 20px 20px 0px 0px;
-      }
-    }
-
-    .drawer-share {
-      .am-drawer-sidebar {
-        box-shadow: none !important;
-      }
+  }
+  .comment {
+    .ant-drawer-content-wrapper {
+      height: 100% !important;
     }
   }
 }

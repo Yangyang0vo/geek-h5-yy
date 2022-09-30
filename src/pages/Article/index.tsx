@@ -1,6 +1,6 @@
 import Icon from '@/components/Icon'
 import NavBar from '@/components/NavBar'
-import { followAuthor, getArticleDetail, getCommentList, getMoreCommentList } from '@/store/action/articleActions'
+import { followAuthor, getArticleDetail, getCommentList, getMoreCommentList, likeComment } from '@/store/action/articleActions'
 import { useAppDispatch, useAppSelector, useHistory } from '@/store/hooks'
 import classNames from 'classnames'
 import dayjs from 'dayjs'
@@ -17,7 +17,11 @@ import CommentFooter from './components/CommentFooter'
 import { InfiniteScroll, Toast } from 'antd-mobile'
 import { Dialog } from 'antd-mobile'
 import Sticky from '@/components/Sticky'
-
+import { Drawer } from 'antd'
+import Share from './components/Share'
+import CommentInput from './components/CommentInput'
+import { Comment } from '@/store/types'
+import CommentReply from './components/Reply'
 const Article = () => {
   const navigate = useNavigate()
   const { id } = useParams()
@@ -51,6 +55,7 @@ const Article = () => {
   const [isShowTop, setIsShowTop] = useState(false)
   const authorRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
+    // 滚动到一定位置，显示顶部信息
     const onScroll = throttle(() => {
       const rect = authorRef.current?.getBoundingClientRect()!
       if (rect?.top <= 0) {
@@ -69,7 +74,9 @@ const Article = () => {
   useEffect(() => {
     dispatch(getCommentList(id as string))
   }, [dispatch, id])
+  // 是否有更多评论
   const hasMore = comments.end_id !== comments.last_id
+  // 加载更多评论
   const loadMore = async () => {
     await dispatch(
       getMoreCommentList({
@@ -78,6 +85,7 @@ const Article = () => {
       })
     )
   }
+  // 关注作者
   const follow = async () => {
     if (article.is_followed) {
       Dialog.confirm({
@@ -102,6 +110,7 @@ const Article = () => {
   }
   const commentRef = useRef<HTMLDivElement>(null)
   const isCommennt = useRef(false)
+  // 跳转到评论
   const goComment = () => {
     if (isCommennt.current) {
       window.scrollTo(0, 0)
@@ -110,6 +119,65 @@ const Article = () => {
     }
     isCommennt.current = !isCommennt.current
   }
+  // 分享抽屉状态
+  const [shareDrawerStatus, setShareDrawerStatus] = useState(false)
+
+  // 打开分享抽屉
+  const onOpenShare = () => {
+    setShareDrawerStatus(true)
+  }
+  // 关闭分享抽屉
+  const onCloseShare = () => {
+    setShareDrawerStatus(false)
+  }
+  // 评论抽屉状态
+  const [commentDrawerStatus, setCommentDrawerStatus] = useState({
+    visible: false,
+    id: ''
+  })
+  // 关闭评论抽屉表单
+  const onCloseComment = () => {
+    setCommentDrawerStatus({
+      visible: false,
+      id: ''
+    })
+  }
+  // 点击评论工具栏“输入框”，打开评论抽屉表单
+  const onComment = () => {
+    setCommentDrawerStatus({
+      visible: true,
+      id: article.art_id
+    })
+  }
+  //回复评论的抽屉
+  const [replyDrawerStatus, setReplyDrawerStatus] = useState({
+    visible: false,
+    // 原始评论
+    originComment: {} as Comment
+  })
+  // 关闭回复评论抽屉
+  const onCloseReply = () => {
+    setReplyDrawerStatus({
+      visible: false,
+      originComment: {} as Comment
+    })
+  }
+  const onOpenReply = (comment: Comment) => {
+    setReplyDrawerStatus({
+      visible: true,
+      originComment: comment
+    })
+  }
+  // 给评论点赞
+  const onThumbsUp = (comment: Comment) => {
+    dispatch(
+      likeComment({
+        id: comment.com_id,
+        isLiking: comment.is_liking
+      })
+    )
+  }
+  // const comment_like_count = useAppSelector((state) => state.articleSlice.comments.results?.map((item) => item.like_count).reduce((a, b) => a + b, 0))
   return (
     <div className={styles.root}>
       <div className="root-wrapper">
@@ -135,7 +203,6 @@ const Article = () => {
             '文章详情'
           )}
         </NavBar>
-
         <div className="wrapper">
           <div className="article-wrapper">
             {/* 文章描述信息栏 */}
@@ -184,15 +251,27 @@ const Article = () => {
               // 有评论时显示的评论列表
               <div className="comment-list">
                 {comments.results?.map((item) => {
-                  return <CommentItem key={item.com_id} comment={item} />
+                  return <CommentItem onThumbsUp={onThumbsUp} hasReply key={item.com_id} comment={item} onOpenReply={onOpenReply} />
                 })}
                 <InfiniteScroll hasMore={hasMore} loadMore={loadMore}></InfiniteScroll>
               </div>
             )}
           </div>
           {/* 评论工具栏 */}
-          <CommentFooter goComment={goComment} />
+          <CommentFooter goComment={goComment} onShare={onOpenShare} onComment={onComment} />
         </div>
+        {/* 应用分享抽屉 */}
+        <Drawer className="share" placement="bottom" closable={false} open={shareDrawerStatus} onClose={onCloseShare} bodyStyle={{ padding: 0 }}>
+          {shareDrawerStatus && <Share onClose={onCloseShare}></Share>}
+        </Drawer>
+        {/* 发表评论抽屉 */}
+        <Drawer className="comment" placement="bottom" closable={false} open={commentDrawerStatus.visible}>
+          {commentDrawerStatus.visible && <CommentInput articleId={article.art_id} onClose={onCloseComment}></CommentInput>}
+        </Drawer>
+        {/* 回复评论的抽屉 */}
+        <Drawer className="comment" placement="bottom" closable={false} open={replyDrawerStatus.visible}>
+          {replyDrawerStatus.visible && <CommentReply onClose={onCloseReply} originComment={replyDrawerStatus.originComment} articleId={article.art_id}></CommentReply>}
+        </Drawer>
       </div>
     </div>
   )

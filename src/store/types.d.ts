@@ -93,7 +93,7 @@ export type Detail = {
   like_count: number
 }
 
-export type comment = {
+export type Comment = {
   aut_id: string
   aut_name: string
   aut_photo: string
@@ -105,9 +105,9 @@ export type comment = {
   pubdate: string
   reply_count: number
 }
-export type commentType = {
+export type CommentType = {
   end_id: string
   last_id: string
-  results: comment[]
+  results: Comment[]
   total_count: number
 }

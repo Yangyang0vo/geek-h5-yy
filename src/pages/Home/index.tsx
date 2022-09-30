@@ -10,7 +10,6 @@ import ArticleList from './components/ArticleList'
 import MoreAction from '@/pages/Home/components/MoreAction'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useNavigate } from 'react-router-dom'
-
 export default function Home() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
